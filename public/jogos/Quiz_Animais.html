@@ -196,7 +196,7 @@
 
   <div id="endContainer" class="hidden">
     <h2>Parabéns! Você Concluiu o jogo!</h2>
-    <button class="button" disabled>Retornar para a página de jogos</button>
+    <a href="../jogos.html">   <button class="button" >Retornar para a página de jogos</button></a>
   </div>
 </div>
 
@@ -207,7 +207,7 @@
 
     <button id="btnContinue">Continuar</button>
     <button id="btnReload">Recarregar</button>
-    <button id="btnExit">Sair do Jogo</button>
+    <a href="../jogos.html">   <button id="btnExit">Sair do Jogo</button></a> 
     <p></p>
     <div id="fontSizeControls">
       <button id="btnDecreaseFont">A-</button>
@@ -222,7 +222,7 @@
     {
       question: "Que animal é esse?",
       options: ["Dinossauro", "Macaco", "Leão"],
-      correctAnswer: 0, //Aqui é a resposta correta que deve ser representada na ilustração que irá aparecer (de 0 a 2)
+      correctAnswer: 0, // Aqui é a resposta correta que deve ser representada na ilustração que irá aparecer (de 0 a 2)
       imageSrc: "data:image/png;base64,..."
     },
     {
@@ -281,6 +281,7 @@
       button.textContent = phase.options[index];
       button.disabled = false;
       button.classList.remove("hidden");
+      button.style.borderColor = 'transparent'; // Remover contorno ao carregar a fase
     });
 
     feedbackMessage.classList.add("hidden");
@@ -373,6 +374,21 @@
     loadPhase();
     quizContainer.classList.remove("hidden");
     endContainer.classList.add("hidden");
+  }
+
+  // Função para destacar a opção correta
+  hintButton.addEventListener('click', showHint);
+
+  function showHint() {
+    const phase = phases[currentPhase];
+    const correctButton = optionButtons[phase.correctAnswer];
+    correctButton.style.borderColor = '#0056b3'; // Azul mais escuro
+    correctButton.style.borderWidth = '2px'; // Adiciona uma borda visível
+    correctButton.style.borderStyle = 'solid'; // Define o estilo da borda
+    setTimeout(() => {
+      correctButton.style.borderColor = 'transparent';
+      correctButton.style.borderWidth = '0'; // Remove a borda
+    }, 3000);
   }
 </script>
 

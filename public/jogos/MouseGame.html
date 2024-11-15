@@ -80,6 +80,18 @@
 </head>
 
 <body>
+
+<script> function SalvarJogo() {
+    const userRef = doc(db, "users", usuario.uid);
+    setDoc(userRef, {
+        mouse: true,
+    }, { merge: true });
+    console.log("oi");
+    console.log(usuario);
+}
+SalvarJogo();
+</script>
+
     <div id="gameArea">
         <div id="player">
             <img src="https://www.pngarts.com/files/3/Scuba-Diver-PNG-Transparent-Image.png" alt="Player character">

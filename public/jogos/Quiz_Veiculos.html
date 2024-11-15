@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Sobre veículos</title>
+  <title>Quiz Sobre Veículos</title>
   <style>
     body {
       display: flex;
@@ -180,7 +180,7 @@
 <div id="hintButton">&#128161;</div>
 
 <div id="container">
-  <h1 id="title">Quiz Sobre veículos</h1>
+  <h1 id="title">Quiz Sobre Veículos</h1>
   <button id="startButton" class="button">Começar Jogo</button>
 
   <div id="quizContainer" class="hidden">
@@ -196,18 +196,18 @@
 
   <div id="endContainer" class="hidden">
     <h2>Parabéns! Você Concluiu o jogo!</h2>
-    <button class="button" disabled>Retornar para a página de jogos</button>
+    <a href="../jogos.html">   <button class="button" >Retornar para a página de jogos</button></a>
   </div>
 </div>
 
 <!-- Modal de opções -->
 <div id="modal">
   <div id="modalContent">
-    <div id="modalTitle">Quiz Sobre veículos</div>
+    <div id="modalTitle">Quiz Sobre Veículos</div>
 
     <button id="btnContinue">Continuar</button>
     <button id="btnReload">Recarregar</button>
-    <button id="btnExit">Sair do Jogo</button>
+<a href="../jogos.html">   <button id="btnExit">Sair do Jogo</button></a> 
     <p></p>
     <div id="fontSizeControls">
       <button id="btnDecreaseFont">A-</button>
@@ -222,18 +222,18 @@
     {
       question: "O que é isso?",
       options: ["Um trem", "Um carro", "Um navio"],
-      correctAnswer: 0, //Aqui é a resposta correta que deve ser representada na ilustração que irá aparecer (de 0 a 2)
+      correctAnswer: 0, // Aqui é a resposta correta que deve ser representada na ilustração que irá aparecer (de 0 a 2)
       imageSrc: "./img/s"
     },
     {
-      question: "isso é:",
-      options: ["Um onibus", "Um barco", "um avião"],
+      question: "Isso é:",
+      options: ["Um ônibus", "Um barco", "Um avião"],
       correctAnswer: 1,
       imageSrc: "data:image/png;base64,..."
     },
     {
       question: "O que você vê:",
-      options: ["Um skate", "Um caminhão", "Uma Bicicleta"],
+      options: ["Um skate", "Um caminhão", "Uma bicicleta"],
       correctAnswer: 1,
       imageSrc: "data:image/png;base64,..."
     }
@@ -281,6 +281,7 @@
       button.textContent = phase.options[index];
       button.disabled = false;
       button.classList.remove("hidden");
+      button.style.borderColor = 'transparent'; // Remover contorno ao carregar a fase
     });
 
     feedbackMessage.classList.add("hidden");
@@ -373,6 +374,21 @@
     loadPhase();
     quizContainer.classList.remove("hidden");
     endContainer.classList.add("hidden");
+  }
+
+  // Função para destacar a opção correta
+  hintButton.addEventListener('click', showHint);
+
+  function showHint() {
+    const phase = phases[currentPhase];
+    const correctButton = optionButtons[phase.correctAnswer];
+    correctButton.style.borderColor = '#0056b3'; // Azul mais escuro
+    correctButton.style.borderWidth = '2px'; // Adiciona uma borda visível
+    correctButton.style.borderStyle = 'solid'; // Define o estilo da borda
+    setTimeout(() => {
+      correctButton.style.borderColor = 'transparent';
+      correctButton.style.borderWidth = '0'; // Remove a borda
+    }, 3000);
   }
 </script>
 

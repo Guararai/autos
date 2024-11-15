@@ -107,6 +107,114 @@
             padding: 10px 20px;
             cursor: pointer;
         }
+        .welcome-section {
+            background-color: #f0f7ff;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .welcome-text h1 {
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .welcome-text p {
+            color: #666;
+            margin: 0;
+        }
+
+        .play-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 2rem;
+            border-radius: 9999px;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+
+        .profile-card {
+            background-color: white;
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background-color: #e5e7eb;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+        }
+
+        .profile-name {
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+            color: #16a34a;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .characters-section {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        
+
+        .characters-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .characters-grid {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .character-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #93c5fd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .character-icon img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .explore-button {
+            color: #3b82f6;
+            text-decoration: none;
+            padding: 0.5rem 2rem;
+            border: 1px solid #3b82f6;
+            border-radius: 9999px;
+            display: inline-block;
+        }
+
+
     </style>
 </head>
 
@@ -129,39 +237,40 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const db = getFirestore(app);
-
         onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                try {
-                    let displayName = user.displayName;
-
-                    if (!displayName) {
-                        const userDoc = await getDoc(doc(db, "users", user.uid));
-                        if (userDoc.exists()) {
-                            displayName = userDoc.data().nome;
-                        }
-                    }
-
-                    if (displayName) {
-                        document.getElementById('username').textContent = ` ${displayName}!`;
-                    }
-
-                } catch (error) {
-                    console.error("Erro ao buscar dados do usuário:", error);
+    if (user) {
+        try {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                let displayName = userData.fullName;
+                
+                // Atualizar nome do usuário
+                if (displayName) {
+                    document.getElementById('username').textContent = displayName;
                 }
-            } else {
-               // window.location.href = 'login.html';
+
+                // Contar campos que são true
+                let completedGames = 0;
+                Object.entries(userData).forEach(([key, value]) => {
+                    if (value === true) {
+                        completedGames++;
+                    }
+                });
+                
+                // Atualiza o contador na interface
+                document.getElementById('jogoscompletos').textContent = completedGames;
             }
-        });
-
-        document.getElementById('logout').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                window.location.href = 'login.html';
-            }).catch((error) => {
-                console.error("Erro ao fazer logout:", error);
-            });
-        });
-
+        } catch (error) {
+            console.error("Erro ao buscar dados do usuário:", error);
+        }
+    } else {
+        // Usuário não está logado
+    //    window.location.href = 'login.html';
+    }
+});
+          
     </script>
 
     <header>
@@ -192,65 +301,85 @@
             </ul>
         </nav>
     </header>
-    <div>
-        <div class="banner">
-            <div class="user-info">
-                <a href="#">
-                    <img src="img/avatar-banner.png" alt="User Avatar" class="user-avatar">
+    <main>
+        <section class="welcome-section">
+             
+         
+            <div class="welcome-text">
+                            
+                            <div>
+                                <h1>Bem-vindo</h1>
+                                <h2>Como é bom ter você por aqui.<h2>
+                            </div>
+                
+                <a href="jogos.html"><button class="play-btn">Jogar</button></a>
+            </div>
+           
+        </section>
+
+        <section class="profile-card">
+            <img srcset="https://images.vexels.com/content/150881/preview/baby-rubber-duck-circle-icon-53725b.png" alt="User Avatar" class="user-avatar">
+            <h2 class="profile-name"><span id="username"></span></h2>
+            <p class="profile-stats">Jogos concluídos: <span id="jogoscompletos"></span>/17</p>
+            <p class="profile-stats">Parabéns!</p>
+        </section>
+
+        <section class="characters-section">
+            <h3 style="margin-right: 3%;" class="characters-title">Nossos personagens estão te esperando!</h3>
+            <p class="characters-subtitle">Gostou de algum? Clique para jogar</p>
+            <section id="imagens">
+                <div class="wrapper">
+                    <a href="jogos.html"> 
+                    <ul class="carousel">
+             
+                        <li class="card card-jogos" data-modal="#">
+                            <div class="img">
+                                <img src="images/img1.jpg" alt="" draggable="false" />
+                            </div>
+                            <h2></h2>
+                            <span></span>
+                        </li>
+                        <li class="card card-jogos">
+                            <div class="img">
+                                <img src="images/img2.jpg" alt="" draggable="false" />
+                            </div>
+                            <h2></h2>
+                            <span></span>
+                        </li>
+                        <li class="card card-jogos">
+                            <div class="img">
+                                <img src="images/img3.jpg" alt="" draggable="false" />
+                            </div>
+                            <h2></h2>
+                            <span></span>
+                        </li>
+                        <li class="card card-jogos">
+                            <div class="img">
+                                <img src="images/img3.jpg" alt="" draggable="false" />
+                            </div>
+                            <h2></h2>
+                            <span></span>
+                        </li>
+                        <li class="card card-jogos">
+                            <div class="img">
+                                <img src="images/img3.jpg" alt="" draggable="false" />
+                            </div>
+                            <h2></h2>
+                            <span></span>
+                        </li>
+                    </ul>
                 </a>
-                <div>
-                    <h1>Bem-vindo de volta⠀ <span id="fullName"></span></h1>
-                    <p>Progresso simples</p>
                 </div>
-            </div>
-            <div class="bonecos-banner">
-                <img src="img/img-banner.svg" alt="Characters Image">
-            </div>
-        </div>
-    </div>
-    <section id="imagens">
-        <div class="wrapper">
-          
-            <ul class="carousel">
-                <li class="card card-jogos" data-modal="modal1">
-                    <div class="img">
-                        <img src="images/img1.jpg" alt="" draggable="false" />
-                    </div>
-                    <h2></h2>
-                    <span></span>
-                </li>
-                <li class="card card-jogos" data-modal="modal2">
-                    <div class="img">
-                        <img src="images/img2.jpg" alt="" draggable="false" />
-                    </div>
-                    <h2></h2>
-                    <span></span>
-                </li>
-                <li class="card card-jogos" data-modal="modal3">
-                    <div class="img">
-                        <img src="images/img3.jpg" alt="" draggable="false" />
-                    </div>
-                    <h2></h2>
-                    <span></span>
-                </li>
-                <li class="card card-jogos" data-modal="modal3">
-                    <div class="img">
-                        <img src="images/img3.jpg" alt="" draggable="false" />
-                    </div>
-                    <h2></h2>
-                    <span></span>
-                </li>
-                <li class="card card-jogos" data-modal="modal3">
-                    <div class="img">
-                        <img src="images/img3.jpg" alt="" draggable="false" />
-                    </div>
-                    <h2></h2>
-                    <span></span>
-                </li>
-            </ul>
-          
-        </div>
-    </section>
+            </section>
+            <br>
+            <h3 style="margin-right: 3%;">Explore todos os jogos!<h3>
+      
+
+            <a  style="margin-right: 3%; width: 10% ;" href="jogos.html" class="explore-button">Jogos</a>
+        </section>
+    </main>
+
+    
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">

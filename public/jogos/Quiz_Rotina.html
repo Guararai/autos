@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Sobre a rotina</title>
+  <title>Quiz Sobre a Rotina</title>
   <style>
     body {
       display: flex;
@@ -160,23 +160,19 @@
     }
 
     .high-contrast #container {
-
       background-color: #333;
       border-color: #fff;
       color: #fff;
     }
 
     .high-contrast .button {
-  background-color: #fff;
-  color: #000;
-}
+      background-color: #fff;
+      color: #000;
+    }
 
-.high-contrast h1, .high-contrast h2, .high-contrast p {
-  color: #fff;
-}
-
-
-
+    .high-contrast h1, .high-contrast h2, .high-contrast p {
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -185,7 +181,7 @@
 <div id="hintButton">&#128161;</div>
 
 <div id="container">
-  <h1 id="title">Quiz Sobre a rotina</h1>
+  <h1 id="title">Quiz Sobre a Rotina</h1>
   <button id="startButton" class="button">Começar Jogo</button>
 
   <div id="quizContainer" class="hidden">
@@ -201,18 +197,18 @@
 
   <div id="endContainer" class="hidden">
     <h2>Parabéns! Você Concluiu o jogo!</h2>
-    <button class="button" disabled>Retornar para a página de jogos</button>
+    <a href="../jogos.html">   <button class="button" >Retornar para a página de jogos</button></a>
   </div>
 </div>
 
 <!-- Modal de opções -->
 <div id="modal">
   <div id="modalContent">
-    <div id="modalTitle">Quiz Sobre a rotina</div>
+    <div id="modalTitle">Quiz Sobre a Rotina</div>
 
     <button id="btnContinue">Continuar</button>
     <button id="btnReload">Recarregar</button>
-    <button id="btnExit">Sair do Jogo</button>
+    <a href="../jogos.html">   <button id="btnExit">Sair do Jogo</button></a> 
     <p></p>
     <div id="fontSizeControls">
       <button id="btnDecreaseFont">A-</button>
@@ -227,12 +223,12 @@
     {
       question: "O que é isso?",
       options: ["Um coelho pulando", "Um menino dormindo", "Uma bola na grama"],
-      correctAnswer: 1, //Aqui é a resposta correta que deve ser representada na ilustração que irá aparecer (de 0 a 2)
+      correctAnswer: 1, // Aqui é a resposta correta que deve ser representada na ilustração que irá aparecer (de 0 a 2)
       imageSrc: "./img/s"
     },
     {
       question: "O que o menino está fazendo?",
-      options: ["Brincando", "Comendo Doce", "Arrumando a cama"],
+      options: ["Brincando", "Comendo doce", "Arrumando a cama"],
       correctAnswer: 2,
       imageSrc: "data:image/png;base64,..."
     },
@@ -286,6 +282,7 @@
       button.textContent = phase.options[index];
       button.disabled = false;
       button.classList.remove("hidden");
+      button.style.borderColor = 'transparent'; // Remover contorno ao carregar a fase
     });
 
     feedbackMessage.classList.add("hidden");
@@ -346,7 +343,7 @@
   btnReload.addEventListener('click', () => {
     window.location.reload();
     modal.style.display = 'none';
-});
+  });
 
   btnContinue.addEventListener('click', () => {
     modal.style.display = 'none';
@@ -378,6 +375,21 @@
     loadPhase();
     quizContainer.classList.remove("hidden");
     endContainer.classList.add("hidden");
+  }
+
+  // Função para destacar a opção correta
+  hintButton.addEventListener('click', showHint);
+
+  function showHint() {
+    const phase = phases[currentPhase];
+    const correctButton = optionButtons[phase.correctAnswer];
+    correctButton.style.borderColor = '#0056b3'; // Azul mais escuro
+    correctButton.style.borderWidth = '2px'; // Adiciona uma borda visível
+    correctButton.style.borderStyle = 'solid'; // Define o estilo da borda
+    setTimeout(() => {
+      correctButton.style.borderColor = 'transparent';
+      correctButton.style.borderWidth = '0'; // Remove a borda
+    }, 3000);
   }
 </script>
 
