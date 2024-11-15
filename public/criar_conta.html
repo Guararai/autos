@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style_Cadastro.css">
+    <link rel="shortcut icon" href="img/Favicon.ico" type="image/x-icon">
+    <title>Cadastro</title>
+</head>
+
+<body>
+    <div class="login-container">
+        <a href="/login.html"><img class="seta" src="https://static.thenounproject.com/png/1227050-200.png"> </a>
+        <div class="logo">
+            <img src="img/Logo.png" style="width: 40%;">
+        </div>
+        <h1>Cadastro</h1>
+        <form>
+            <div id="caixinha" class="caixinha">
+                
+            </div>
+            <input id="username" type="text" placeholder="Nome" required>
+            <input id="email" type="email" placeholder="Email" required>
+            <input id="password" type="password" placeholder="Senha" required>
+            <input id="password_confirm" type="password" placeholder="Confirmar Senha" required>
+            <div class="forgot-password">
+                <button id="sign_up" type="button" class="login-button">Cadastrar</button>
+        </form>
+        <div class="or-divider">ou use</div>
+        <div class="social-login">
+            <button id="googleLogin" class="social-button">
+                <img src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg" alt="Google logo">
+                Continuar com o Google
+            </button>
+            <button class="social-button">
+                <img src="https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1720244493" alt="Microsoft logo">
+                Continuar com a Microsoft
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js'
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            GoogleAuthProvider,
+            signInWithPopup,
+            updateProfile 
+        } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
+        import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVJIKGivD0wnr4FxAMB-kz8oCNtcLmtYs",
+            authDomain: "autos-34b01.firebaseapp.com",
+            projectId: "autos-34b01",
+            storageBucket: "autos-34b01.appspot.com",
+            messagingSenderId: "903227924701",
+            appId: "1:903227924701:web:90d4301331b1259765bb34",
+            measurementId: "G-PY6L785E86"
+        };
+
+        // Iniciando as configurações
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        // Função para salvar dados do usuário no Firestore
+        async function saveUserData(userId, userData) {
+            try {
+                // Verificar se temos um userId válido
+                if (!userId) {
+                    throw new Error("UserId não fornecido");
+                }
+
+                // Verificar se a coleção existe, se não, ela será criada automaticamente
+                const userRef = doc(db, "users", userId);
+                
+                // Adicionar timestamp do servidor
+                const dataWithTimestamp = {
+                    ...userData,
+                    updatedAt: new Date().toISOString()
+                };
+
+                // Tentar salvar os dados
+                await setDoc(userRef, dataWithTimestamp);
+                
+                console.log("Dados salvos no Firestore com sucesso!");
+                console.log("Dados salvos:", dataWithTimestamp);
+                
+                // Redirecionar após sucesso
+                window.location.href = "../public/login.html";
+                
+            } catch (error) {
+                console.error("Erro detalhado ao salvar no Firestore:", error);
+                
+                // Mostrar erro para o usuário
+                const caixinha = document.getElementById('caixinha');
+                caixinha.style.display = 'block';
+                caixinha.style.backgroundColor = '#ff6b6b';
+                caixinha.style.color = 'white';
+                caixinha.style.padding = '10px';
+                caixinha.style.borderRadius = '5px';
+                caixinha.style.marginBottom = '10px';
+                
+                if (error.code === 'permission-denied') {
+                    caixinha.textContent = "Erro de permissão: Verifique as regras do Firestore";
+                } else {
+                    caixinha.textContent = "Erro ao salvar dados: " + error.message;
+                }
+            }
+        }
+
+        // Login com Google
+        document.getElementById('googleLogin').addEventListener('click', function() {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    console.log("Login com Google bem sucedido!");
+                    console.log("Dados do usuário Google:", {
+                        uid: user.uid,
+                        nome: user.displayName,
+                        email: user.email,
+                        foto: user.photoURL,
+                        emailVerificado: user.emailVerified
+                    });
+
+                    // Salvando dados do usuário Google no Firestore
+                    const userData = {
+                        nome: user.displayName,
+                        email: user.email,
+                        foto: user.photoURL,
+                        emailVerificado: user.emailVerified,
+                        metodoLogin: 'google',
+                        dataCadastro: new Date().toISOString()
+                    };
+
+                    saveUserData(user.uid, userData);
+
+                    if (user.displayName) {
+                        document.getElementById('username').value = user.displayName;
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erro no login com Google:", error);
+                    const caixinha = document.getElementById('caixinha');
+                    caixinha.style.display = 'block';
+                    caixinha.textContent = "Erro ao fazer login com Google.";
+                });
+        });
+
+        // Cadastro com email/senha
+        const button = document.getElementById('sign_up')
+        button.onclick = function (e) {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const password_confirm = document.getElementById('password_confirm').value;
+
+            console.log("Tentativa de cadastro com os dados:");
+            console.log("Nome:", username);
+            console.log("Email:", email);
+
+            if (password !== password_confirm) {
+                const caixinha = document.getElementById('caixinha');
+                caixinha.style.display = 'block';
+                caixinha.textContent = "As senhas devem ser iguais.";
+                return;
+            }
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log("Usuário criado com sucesso!");
+                    
+                    // Atualizar o perfil do usuário com o nome
+                    return updateProfile(user, {
+                        displayName: username
+                    }).then(() => {
+                        console.log("Perfil atualizado com sucesso!");
+                        
+                        // Salvando dados do usuário no Firestore
+                        const userData = {
+                            nome: username,
+                            email: email,
+                            emailVerificado: user.emailVerified,
+                            metodoLogin: 'email',
+                            dataCadastro: new Date().toISOString()
+                        };
+
+                        return saveUserData(user.uid, userData);
+                    });
+                })
+                .catch((error) => {
+                    var errorMessage = error.message;
+                    const errorCode = error.code;
+                    console.error("Erro no cadastro:", error);
+
+                    if (errorCode === "auth/invalid-email") {
+                        errorMessage = "Email inválido.";
+                    }
+                    if (errorCode == "auth/weak-password") {
+                        errorMessage = "A senha deve ter no mínimo 6 caracteres.";
+                    }
+                    if (errorCode == "auth/email-already-in-use") {
+                        errorMessage = "Este email já está em uso.";
+                    }
+
+                    const caixinha = document.getElementById('caixinha');
+                    caixinha.style.display = 'block';
+                    caixinha.textContent = errorMessage;
+                });
+        }
+    </script>
+</body>
+
+</html>

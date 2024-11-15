@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Labirinto</title>
+    <style> 
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 800px;
+            height: 600px;
+        }
+
+        #gameArea {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+        }
+
+        #player {
+            position: absolute;
+            font-size: 20px;
+            user-select: none;
+            cursor: grab;
+            z-index: 10;
+        }
+
+        #player:active {
+            cursor: grabbing;
+        }
+
+        .wall {
+            position: absolute;
+            background-color: #333;
+        }
+
+        .coin {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+
+            border-radius: 50%;
+        }
+
+        #score {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            font-size: 20px;
+        }
+
+        #message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="gameContainer">
+        <div id="gameArea">
+            <div id="player">🐶</div>
+            <div id="score">Pontos: 0</div>
+            <div id="message"></div>
+        </div>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const gameArea = document.getElementById('gameArea');
+        const scoreDisplay = document.getElementById('score');
+        const messageDisplay = document.getElementById('message');
+        let score = 0;
+
+        // Posição inicial do jogador
+        let startX = 100;
+        let startY = 100;
+        let playerX = startX;
+        let playerY = startY;
+
+        // Estado do jogo e controle de arrastar
+        let gameState = 'playing';
+        let isDragging = false;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+
+        player.style.left = `${playerX}px`;
+        player.style.top = `${playerY}px`;
+
+        // Criação do labirinto (paredes)
+        function createWall(x, y, width, height) {
+            const wall = document.createElement('div');
+            wall.className = 'wall';
+            wall.style.left = `${x}px`;
+            wall.style.top = `${y}px`;
+            wall.style.width = `${width}px`;
+            wall.style.height = `${height}px`;
+            gameArea.appendChild(wall);
+        }
+
+        // Criação das moedas
+        function createCoin(x, y) {
+            const coin = document.createElement('div');
+            coin.className = 'coin';
+            coin.style.left = `${x}px`;
+            coin.style.top = `${y}px`;
+            gameArea.appendChild(coin);
+        }
+
+        function createMaze() {
+            // Modified maze layout for this variant
+            createWall(0, 0, 800, 20);
+            createWall(0, 580, 800, 20);
+            createWall(150, 150, 400, 20);
+            createWall(150, 300, 400, 20);
+            
+
+            createWall(0, 0, 20, 600);
+            createWall(780, 0, 20, 600);
+            createWall(150, 0, 20, 150);
+            createWall(550, 150, 20, 300);
+            createWall(150, 300, 20, 150);
+        }
+
+        function createCoins() {
+            // Modified coin placement for this variant
+            createCoin(75, 75, '🦴');
+            createCoin(200, 75, '🦴');
+            createCoin(375, 225, '🦴');
+            createCoin(75, 525, '🦴');
+            createCoin(725, 525, '🦴');
+        
+        }
+        function createCoin(x, y, character) {
+            const coin = document.createElement('div');
+            coin.className = 'coin';
+            coin.style.left = `${x}px`;
+            coin.style.top = `${y}px`;
+            coin.textContent = character;
+            gameArea.appendChild(coin);
+        }
+
+        // Iniciar arrastar o jogador
+        function startDrag(e) {
+            if (gameState !== 'playing') return;
+            isDragging = true;
+            dragOffsetX = e.clientX - player.offsetLeft;
+            dragOffsetY = e.clientY - player.offsetTop;
+            player.style.cursor = 'grabbing';
+        }
+
+        // Parar de arrastar o jogador
+        function stopDrag() {
+            isDragging = false;
+            player.style.cursor = 'grab';
+        }
+
+        // Movimentação do jogador
+        function drag(e) {
+            if (!isDragging || gameState !== 'playing') return;
+
+            // Cálculo da nova posição do jogador baseado no mouse
+            const newX = e.clientX - dragOffsetX;
+            const newY = e.clientY - dragOffsetY;
+
+            // Garantir que o jogador não ultrapasse os limites da área de jogo
+            if (newX >= 0 && newX <= gameArea.clientWidth - 20 && newY >= 0 && newY <= gameArea.clientHeight - 20) {
+                // Verificar colisão antes de mover o jogador
+                if (!checkWallCollision(newX, newY)) {
+                    playerX = newX;
+                    playerY = newY;
+                    player.style.left = `${playerX}px`;
+                    player.style.top = `${playerY}px`;
+                    checkCoinCollision();
+                }
+            }
+        }
+
+        // Verificar colisão com paredes
+        function checkWallCollision(x, y) {
+            const playerRect = {
+                left: x,
+                top: y,
+                right: x + 20,
+                bottom: y + 20
+            };
+
+            const walls = document.querySelectorAll('.wall');
+            for (const wall of walls) {
+                const wallRect = wall.getBoundingClientRect();
+                const wallOffsetLeft = wall.offsetLeft;
+                const wallOffsetTop = wall.offsetTop;
+                const wallWidth = wall.offsetWidth;
+                const wallHeight = wall.offsetHeight;
+
+                // Verifica a colisão com base nas posições calculadas manualmente
+                if (
+                    playerRect.left < wallOffsetLeft + wallWidth &&
+                    playerRect.right > wallOffsetLeft &&
+                    playerRect.top < wallOffsetTop + wallHeight &&
+                    playerRect.bottom > wallOffsetTop
+                ) {
+                    loseGame();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Verificar colisão com moedas
+        function checkCoinCollision() {
+            const playerRect = player.getBoundingClientRect();
+            const coins = document.querySelectorAll('.coin');
+            coins.forEach(coin => {
+                const coinRect = coin.getBoundingClientRect();
+                if (
+                    playerRect.left < coinRect.right &&
+                    playerRect.right > coinRect.left &&
+                    playerRect.top < coinRect.bottom &&
+                    playerRect.bottom > coinRect.top
+                ) {
+                    coin.remove();
+                    score++;
+                    scoreDisplay.textContent = `Pontos: ${score}`;
+                    if (score === 5) {
+                        winGame();
+                    }
+                }
+            });
+        }
+
+        // Perder o jogo
+        function loseGame() {
+            gameState = 'lost';
+            player.style.cursor = 'default';
+            messageDisplay.style.display = 'block';
+            messageDisplay.textContent = 'Você perdeu! Clique para reiniciar.';
+            gameArea.addEventListener('click', restartGame);
+        }
+
+        // Ganhar o jogo
+        function winGame() {
+            gameState = 'won';
+            player.style.cursor = 'default';
+            messageDisplay.style.display = 'block';
+            messageDisplay.textContent = 'Você venceu! Clique para reiniciar.';
+            gameArea.addEventListener('click', restartGame);
+        }
+
+        // Reiniciar o jogo
+        function restartGame() {
+            gameState = 'playing';
+            player.style.cursor = 'grab';
+            messageDisplay.style.display = 'none';
+            score = 0;
+            scoreDisplay.textContent = `Pontos: ${score}`;
+            playerX = startX;
+            playerY = startY;
+            player.style.left = `${playerX}px`;
+            player.style.top = `${playerY}px`;
+            gameArea.removeEventListener('click', restartGame);
+
+            // Remover moedas existentes e recriar novas
+            document.querySelectorAll('.coin').forEach(coin => coin.remove());
+            createCoins();
+        }
+
+        player.addEventListener('mousedown', startDrag);
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('mousemove', drag);
+
+        createMaze();
+        createCoins();
+    </script>
+</body>
+
+</html>

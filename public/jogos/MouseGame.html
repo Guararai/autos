@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Texto com Arrastar e Soltar</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-image: url('https://static.vecteezy.com/ti/vetor-gratis/p1/25448941-embaixo-da-agua-jogos-panorama-com-tesouro-peito-vetor.jpg');
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: #f0f0f0;
+        }
+
+        #gameArea {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: transparent;
+        }
+
+        #player {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            user-select: none;
+            cursor: grab;
+            z-index: 10;
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+        }
+
+        #player img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        #player:active {
+            cursor: grabbing;
+        }
+
+        .obstacle {
+            position: absolute;
+            overflow: hidden;
+        }
+
+        .red img,
+        .green img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 20px;
+        }
+
+        #message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            display: block;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="gameArea">
+        <div id="player">
+            <img src="https://www.pngarts.com/files/3/Scuba-Diver-PNG-Transparent-Image.png" alt="Player character">
+        </div>
+        <div id="score">Pontos: 0</div>
+        <div id="message">Pressione ESPAÇO para começar o jogo</div>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const gameArea = document.getElementById('gameArea');
+        const scoreDisplay = document.getElementById('score');
+        const messageDisplay = document.getElementById('message');
+        let score = 0;
+        let playerX = 0;
+        let playerY = 0;
+        const startX = 10;
+        const startY = 10;
+        let gameState = 'initial';
+        let isDragging = false;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+
+        function startDrag(e) {
+            if (gameState !== 'playing') return;
+            isDragging = true;
+            const playerRect = player.getBoundingClientRect();
+            dragOffsetX = e.clientX - playerRect.left;
+            dragOffsetY = e.clientY - playerRect.top;
+            player.style.cursor = 'grabbing';
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            player.style.cursor = 'grab';
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+
+            playerX = Math.max(0, Math.min(e.clientX - dragOffsetX, gameArea.clientWidth - 50));
+            playerY = Math.max(0, Math.min(e.clientY - dragOffsetY, gameArea.clientHeight - 50));
+
+            player.style.left = `${playerX}px`;
+            player.style.top = `${playerY}px`;
+        }
+
+        function removeAllObstacles() {
+            const obstacles = document.querySelectorAll('.obstacle');
+            obstacles.forEach(obstacle => obstacle.remove());
+        }
+
+        function startGame() {
+            gameState = 'playing';
+            messageDisplay.style.display = 'none';
+            removeAllObstacles();
+            createRedBlocks();
+            for (let i = 0; i < 3; i++) {
+                createRandomGreenObstacle();
+            }
+        }
+
+        function createObstacle(color, x, y, width, height, imageUrl) {
+            const obstacle = document.createElement('div');
+            obstacle.className = `obstacle ${color}`;
+            obstacle.style.left = `${x}px`;
+            obstacle.style.top = `${y}px`;
+            obstacle.style.width = `${width}px`;
+            obstacle.style.height = `${height}px`;
+
+            if (imageUrl) {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                obstacle.appendChild(img);
+            }
+
+            gameArea.appendChild(obstacle);
+            return obstacle;
+        }
+
+        function moveRedBlocks() {
+            const redBlocks = document.querySelectorAll('.obstacle.red');
+            redBlocks.forEach(block => {
+                const rect = block.getBoundingClientRect();
+                const gameAreaRect = gameArea.getBoundingClientRect();
+
+                const blockWidth = block.clientWidth;
+                const blockHeight = block.clientHeight;
+
+                if (!block.dataset.direction) {
+                    block.dataset.direction = Math.random() > 0.5 ? 'horizontal' : 'vertical';
+                    block.dataset.step = Math.random() * 2 + 1;
+                }
+
+                let direction = block.dataset.direction;
+                let step = parseFloat(block.dataset.step);
+
+                if (direction === 'horizontal') {
+                    let newLeft = rect.left + step - gameAreaRect.left;
+                    if (newLeft + blockWidth > gameAreaRect.width || newLeft < 0) {
+                        step *= -1;
+                    }
+                    block.style.left = `${newLeft}px`;
+                    block.dataset.step = step;
+                } else if (direction === 'vertical') {
+                    let newTop = rect.top + step - gameAreaRect.top;
+                    if (newTop + blockHeight > gameAreaRect.height || newTop < 0) {
+                        step *= -1;
+                    }
+                    block.style.top = `${newTop}px`;
+                    block.dataset.step = step;
+                }
+            });
+        }
+
+        function checkCollision() {
+            if (gameState !== 'playing') return;
+
+            const playerRect = player.getBoundingClientRect();
+            const obstacles = document.querySelectorAll('.obstacle');
+
+            obstacles.forEach(obstacle => {
+                const obstacleRect = obstacle.getBoundingClientRect();
+                if (
+                    playerRect.left < obstacleRect.right &&
+                    playerRect.right > obstacleRect.left &&
+                    playerRect.top < obstacleRect.bottom &&
+                    playerRect.bottom > obstacleRect.top
+                ) {
+                    if (obstacle.classList.contains('red')) {
+                        loseGame();
+                    } else if (obstacle.classList.contains('green')) {
+                        score++;
+                        scoreDisplay.textContent = `Pontos: ${score}`;
+                        obstacle.remove();
+                        createRandomGreenObstacle();
+                    }
+                }
+            });
+        }
+
+        function loseGame() {
+            gameState = 'lost';
+            player.style.cursor = 'default';
+            messageDisplay.style.display = 'block';
+            messageDisplay.textContent = 'Game Over! Pressione ESPAÇO para jogar novamente';
+            resetPlayerPosition();
+        }
+
+        function restartGame() {
+            gameState = 'playing';
+            player.style.cursor = 'grab';
+            messageDisplay.style.display = 'none';
+            resetPlayerPosition();
+            score = 0;
+            scoreDisplay.textContent = `Pontos: ${score}`;
+            removeAllObstacles();
+            startGame();
+        }
+
+        function resetPlayerPosition() {
+            playerX = startX;
+            playerY = startY;
+            player.style.left = `${playerX}px`;
+            player.style.top = `${playerY}px`;
+        }
+
+        function createRandomGreenObstacle() {
+            const x = Math.random() * (gameArea.clientWidth - 50);
+            const y = Math.random() * (gameArea.clientHeight - 50);
+            createObstacle('green', x, y, 50, 50, 'https://png.pngtree.com/png-clipart/20230123/original/pngtree-yellow-sea-shells-png-image_8927638.png');
+        }
+
+        function createRedBlocks() {
+            const policeCarUrl = 'https://cdn-icons-png.flaticon.com/512/146/146688.png';
+            const positions = [
+                { x: 100, y: 100 }, { x: 200, y: 200 }, { x: 300, y: 300 },
+                { x: 400, y: 400 }, { x: 500, y: 500 }, { x: 600, y: 600 },
+                { x: 700, y: 600 }, { x: 800, y: 700 }
+            ];
+
+            positions.forEach((pos, index) => {
+                const imageUrl = index === 0 ? 'https://cdn-icons-png.flaticon.com/512/146/146688.png' : policeCarUrl;
+                createObstacle('red', pos.x, pos.y, 100, 100, imageUrl);
+            });
+        }
+
+        // Adiciona listener para a tecla espaço
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                if (gameState === 'initial' || gameState === 'lost') {
+                    restartGame();
+                }
+            }
+        });
+
+        player.addEventListener('mousedown', startDrag);
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('mousemove', drag);
+
+        function gameLoop() {
+            if (gameState === 'playing') {
+                moveRedBlocks();
+                checkCollision();
+            }
+            requestAnimationFrame(gameLoop);
+        }
+
+        resetPlayerPosition();
+        gameLoop();
+    </script>
+</body>
+</html>

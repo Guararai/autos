@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acerte qual interação está abaixo</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #E3F4FA;
+      font-family: Arial, sans-serif;
+    }
+
+    #menuButton,
+        #hintButton {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0px 2px 5px rgba(80, 196, 235, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 24px;
+            color: rgba(80, 196, 235, 0.6);
+        }
+
+        #menuButton {
+            top: 20px;
+            left: 20px;
+        }
+
+        #hintButton {
+            bottom: 20px;
+            right: 20px;
+        }
+
+    #container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 1100px;
+      height: 600px;
+      padding: 20px;
+      background-color: #fff;
+      text-align: center;
+    }
+
+    img {
+      max-width: 200px;
+      margin: 20px 0;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #333;
+    }
+
+    h2 {
+      font-size: 28px;
+      color: #333;
+    }
+
+    p {
+      font-size: 20px;
+      color: #333;
+    }
+
+    .button {
+      display: inline-block;
+      font-size: 18px;
+      margin: 10px 5px;
+      padding: 15px 30px;
+      background-color: #00BFFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: #007ACC;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .audio-image {
+      max-width: 50px;
+      margin: 20px;
+    }
+
+    .option-image {
+      max-width: 150px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 5px;
+      transition: border-color 0.3s;
+      margin: 0 20px;
+    }
+
+    .option-image:hover {
+      border-color: #007ACC;
+    }
+  </style>
+</head>
+<body>
+
+<div id="container">
+  <h1 id="title">Acerte as interações</h1>
+  <button id="startButton" class="button">Começar Jogo</button>
+
+  <div id="quizContainer" class="hidden">
+    <img src="path_to_your_audio_icon.png" alt="imagem ação" class="audio-image">
+    <h2 id="questionText"></h2>
+    <img id="option1" class="option-image" onclick="checkAnswer(0)" src="" alt="Opção 1">
+    <img id="option2" class="option-image" onclick="checkAnswer(1)" src="" alt="Opção 2">
+    <p id="feedbackMessage" class="hidden"></p>
+    <button id="nextPhaseButton" class="button hidden" onclick="nextPhase()">Próxima Fase</button>
+    <button id="retryButton" class="button hidden" onclick="restartPhase()">Tentar Novamente</button>
+  </div>
+
+  <div id="endContainer" class="hidden">
+    <h2>Parabéns! Você Concluiu o jogo!</h2>
+    <button class="button" disabled>Retornar para a página de jogos</button>
+  </div>
+</div>
+
+
+<script>
+  const phases = [
+    {
+      question: "Qual é a ação?",
+      options: ["path_to_image.png", "path_to_image.png"],
+      correctAnswer: 0
+    },
+    {
+      question: "Qual é a ação?",
+      options: ["path_to_image.png", "path_to_image.png"],
+      correctAnswer: 1
+    },
+    {
+      question: "Qual é a ação?",
+      options: ["path_to_image.png", "path_to_image.png"],
+      correctAnswer: 1
+    }
+  ];
+
+  let currentPhase = 0;
+
+  const startButton = document.getElementById("startButton");
+  const quizContainer = document.getElementById("quizContainer");
+  const questionText = document.getElementById("questionText");
+  const feedbackMessage = document.getElementById("feedbackMessage");
+  const nextPhaseButton = document.getElementById("nextPhaseButton");
+  const retryButton = document.getElementById("retryButton");
+  const endContainer = document.getElementById("endContainer");
+  const optionImages = [document.getElementById("option1"), document.getElementById("option2")];
+  const audio = document.getElementById("audio");
+
+  startButton.addEventListener("click", startGame);
+
+  function startGame() {
+    startButton.classList.add("hidden");
+    quizContainer.classList.remove("hidden");
+    loadPhase();
+  }
+
+  function loadPhase() {
+    const phase = phases[currentPhase];
+    questionText.textContent = phase.question;
+
+    optionImages.forEach((img, index) => {
+      img.src = phase.options[index];
+      img.style.pointerEvents = "auto";
+      img.classList.remove("hidden");
+    });
+
+    feedbackMessage.classList.add("hidden");
+    nextPhaseButton.classList.add("hidden");
+    retryButton.classList.add("hidden");
+  }
+
+  function checkAnswer(selectedOption) {
+    const phase = phases[currentPhase];
+    if (selectedOption === phase.correctAnswer) {
+      feedbackMessage.textContent = "Parabéns! Você acertou!";
+      feedbackMessage.classList.remove("hidden");
+      nextPhaseButton.classList.remove("hidden");
+      optionImages.forEach(img => img.style.pointerEvents = "none");
+    } else {
+      feedbackMessage.textContent = "Você está quase conseguindo! Tente Novamente.";
+      feedbackMessage.classList.remove("hidden");
+      retryButton.classList.remove("hidden");
+      optionImages.forEach(img => img.style.pointerEvents = "none");
+    }
+  }
+
+  function restartPhase() {
+    feedbackMessage.classList.add("hidden");
+    retryButton.classList.add("hidden");
+    loadPhase();
+  }
+
+  function nextPhase() {
+    currentPhase++;
+    if (currentPhase < phases.length) {
+      loadPhase();
+    } else {
+      endGame();
+    }
+  }
+
+  function endGame() {
+    quizContainer.classList.add("hidden");
+    endContainer.classList.remove("hidden");
+  }
+</script>
+
+</body>
+</html>

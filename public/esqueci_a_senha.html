@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style_Cadastro.css">
+    <link rel="shortcut icon" href="img/Favicon.ico" type="image/x-icon">
+    <title>Esqueci a senha</title>
+    <style>
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <a href="login.html"><img class="seta" src="https://static.thenounproject.com/png/1227050-200.png"> </a>
+        <div class="logo">
+            <img src="img/Logo.png" style="width: 40%;">
+        </div>
+        <h3>Insira seu email para redefinir a senha.</h3>
+        <form>
+            <div id="caixinha" class="caixinha_azul">
+                
+            </div>
+            <input type="email" id="email" placeholder="Email" required>
+            <div class="forgot-password">
+                <button id="enviar" type="button" class="login-button">ENVIAR</button>
+            </div>
+        </form>
+        <div class="or-divider">ou use</div>
+        <div class="social-login">
+            <button class="social-button">
+                <img src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg" alt="Google logo">
+                Continuar com o Google
+            </button>
+            <button class="social-button">
+                <img src="https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1720244493" alt="Microsoft logo">
+                Continuar com a Microsoft
+            </button>
+        </div>
+    </div>
+
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
+
+
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js'
+
+
+        import { getAuth, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVJIKGivD0wnr4FxAMB-kz8oCNtcLmtYs",
+            authDomain: "autos-34b01.firebaseapp.com",
+            projectId: "autos-34b01",
+            storageBucket: "autos-34b01.appspot.com",
+            messagingSenderId: "903227924701",
+            appId: "1:903227924701:web:90d4301331b1259765bb34",
+            measurementId: "G-PY6L785E86"
+        };
+        const app = initializeApp(firebaseConfig);
+
+        const enviar = document.getElementById("enviar");
+        enviar.onclick = function (e) {
+
+            const email = document.getElementById('email').value;
+            const auth = getAuth();
+            sendPasswordResetEmail(auth, email)
+                .then(() => {
+
+                    const caixinha = document.getElementById('caixinha');
+                    caixinha.style.display = 'block';
+                    caixinha.textContent = "Enviamos um link de redefinição de senha em seu e-mail.";
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(error);
+                });
+
+        };
+
+    </script>
+</body>
+
+</html>
