@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -91,7 +91,6 @@
         /* Estilo para o carrossel infinito */
         .carousel-container {
             width: 100%;
-
             max-width: 1300px;
             overflow: hidden;
             position: relative;
@@ -100,13 +99,11 @@
 
         .carousel {
             background-color: #e3f4fa00;
-
             display: flex;
             transition: transform 0.5s ease-in-out;
         }
 
         .carousel-item {
-
             border-radius: 10%;
             margin: 1.5%;
             background-color: #E3F4FA;
@@ -147,6 +144,58 @@
             text-align: center;
             margin-bottom: 2%;
         }
+
+        /* Estilos de alto contraste */
+        .high-contrast {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .high-contrast a {
+            color: #ff0;
+        }
+
+        .high-contrast .navbar {
+            background-color: #333;
+        }
+
+        .high-contrast .slider-container {
+            background-color: #333;
+        }
+
+        .high-contrast .carousel-container {
+            background-color: #333;
+        }
+
+        .high-contrast .carousel-item {
+            background-color: #333;
+            border-color: #fff;
+        }
+
+        .high-contrast .carousel-button {
+            background-color: #333;
+            color: #ff0;
+        }
+
+        .high-contrast .modal-content {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .high-contrast .modal-header,
+        .high-contrast .modal-body,
+        .high-contrast .modal-footer {
+            color: #fff;
+        }
+
+        .high-contrast .close-button {
+            color: #ff0;
+        }
+
+        .high-contrast .play-button {
+            background-color: #ff0;
+            color: #000;
+        }
     </style>
 </head>
 
@@ -162,12 +211,12 @@
                 <li><a href="progresso.html">Progresso</a></li>
             </ul>
             <ul class="nav-icons">
-                <li class="icon"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                <li class="icon"><a href="#" id="high-contrast"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                             fill="currentColor" class="bi bi-circle-half" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16" />
                         </svg></a></li>
-                <li class="icon"><a href="#">A-</a></li>
-                <li class="icon acessib"><a href="#">A+</a></li>
+                <li class="icon"><a href="#" id="decrease-font">A-</a></li>
+                <li class="icon acessib"><a href="#" id="increase-font">A+</a></li>
                 <li class="icon"><a href="perfil.html"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
@@ -192,7 +241,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/alimentos.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -215,11 +264,11 @@
                         <!-- Slider para jogos de quebra-cabeça -->
                     </div>
                     <div class="modal-footer">
-                        <a href="jogos/Quiz_Alimentos.html"><button class="play-button">Jogar Agora</button></a>
+                        <a href="jogos/Quiz_Alimentos.html"><button onclick="SalvarJogo()" class="play-button">Jogar Agora</button></a>
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider1.1">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -232,7 +281,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/animais.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -259,7 +308,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider1.2">
+                        <div class="slide-track right">
                         </div>
                     </div>
                 </div>
@@ -273,7 +322,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/rotina.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -301,7 +350,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider1.3">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -315,7 +364,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/veiculos.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -343,7 +392,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider1.4">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -357,7 +406,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/espaco.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -385,7 +434,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider1.5">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -399,7 +448,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/cores.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -426,7 +475,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider2.1">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -440,7 +489,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/formas.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -468,7 +517,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider2.2">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -482,7 +531,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/animais.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -510,7 +559,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider2.3">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -524,7 +573,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/formas.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -552,7 +601,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider2.4">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -566,7 +615,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/interacoes.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -594,7 +643,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider2.5">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -608,7 +657,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/abelhaflor.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -636,7 +685,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider3.1">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -650,7 +699,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/cachorrosso.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -678,7 +727,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider3.2">
+                        <div class="slide-track right">
                         </div>
                     </div>
                 </div>
@@ -692,7 +741,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/lapiscaderno.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -720,7 +769,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider3.3">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -734,7 +783,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/macacobanana.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -762,7 +811,7 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider3.4">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
@@ -776,7 +825,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/naveestrela.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -804,57 +853,52 @@
                     </div>
                     <p><br></p>
                     <div class="slider">
-                        <div class="slide-track right" id="slider3.5">
+                        <div class="slide-track right" >
                         </div>
                     </div>
                 </div>
             </div>
 
-        <!--
-<div class="modal" id="modal3.6">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title">Labirinto - Fundo do Mar</h2>
-            <button class="close-button">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="modal-image">
-                <img src="img/som1.jpg" alt="">
+            <div class="modal" id="modal3.6">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Labirinto - Fundo do Mar</h2>
+                        <button class="close-button">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-image">
+                            <img src="img/fundomar.jpg" alt="">
+                        </div>
+                        <div class="modal-description">
+                            <h2>Descrição do Jogo</h2>
+                            <br>
+                            <br>
+                            <p><span style="font-weight: bold;">Objetivo:</span> Arrastar o mergulhador com o mouse e
+                                coletar as conchas, desviando dos ouriços no caminho.</p>
+                            <br>
+                            <ul>
+                                <li><span style="font-weight: bold;">Tema:</span> Fundo do mar.</li>
+                                <br>
+                                <li><span style="font-weight: bold;">Número de fases:</span> 1</li>
+                                <br>
+                                <li><span style="font-weight: bold;">Categoria:</span> Jogo extra</li>
+                                <br>
+                                <li><span style="font-weight: bold;">Acessibilidades:</span> Imagens com legendas
+                                    auditivas, libras, contraste ajustável, aumentar ou diminuir fonte.</li>
+                                <br>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#"><button class="play-button">Jogar Agora</button></a>
+                    </div>
+                    <p><br></p>
+                    <div class="slider">
+                        <div class="slide-track right" >
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-description">
-                <h2>Descrição do Jogo</h2>
-                <br>
-                <br>
-                <p><span style="font-weight: bold;">Objetivo:</span> Arrastar o mergulhador com o mouse e
-                    coletar as conchas, desviando dos ouriços no caminho.</p>
-                <br>
-                <ul>
-                    <li><span style="font-weight: bold;">Tema:</span> Fundo do mar.</li>
-                    <br>
-                    <li><span style="font-weight: bold;">Número de fases:</span> 1</li>
-                    <br>
-                    <li><span style="font-weight: bold;">Categoria:</span> Jogo extra</li>
-                    <br>
-                    <li><span style="font-weight: bold;">Acessibilidades:</span> Imagens com legendas
-                        auditivas, libras, contraste ajustável, aumentar ou diminuir fonte.</li>
-                </ul>
-            </div>
-             Slider para jogos de quebra-cabeça 
-        </div>
-        <div class="modal-footer">
-            <a href="jogos/MouseGame.html"><button class="play-button">Jogar Agora</button></a>
-        </div>
-        <p><br></p>
-        <div class="slider">
-            <div class="slide-track right" id="slider4.2">
-            </div>
-        </div>
-    </div>
-</div>
--->
-
-
-
 
             <div class="modal" id="modal4.1">
                 <div class="modal-content">
@@ -864,7 +908,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="img/som1.jpg" alt="">
+                            <img src="img/animais.jpg" alt="">
                         </div>
                         <div class="modal-description">
                             <h2>Descrição do Jogo</h2>
@@ -881,6 +925,7 @@
                                 <br>
                                 <li><span style="font-weight: bold;">Acessibilidades:</span> Imagens com legendas
                                     auditivas, contraste ajustável, aumentar ou diminuir fonte.</li>
+                                <br>
                             </ul>
                         </div>
                         <!-- Slider para jogos de quebra-cabeça -->
@@ -889,16 +934,12 @@
                         <a href="jogos/jogo_da_memoria.html"> <button class="play-button">Jogar Agora</button> </a>
                     </div>
                     <p><br></p>
-                    <div class="slider">
-                        <div class="slide-track right" id="slider4.1">
+                   <div class="slider">
+                        <div class="slide-track right">
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
-
         </section>
     </div>
     <h2>Relacionando imagens e nomes</h2>
@@ -909,45 +950,45 @@
         <div class="carousel">
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal1.1">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/alimentos.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal1.2">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/animais.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal1.3">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/rotina.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal1.4">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/veiculos.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal1.5">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/espaco.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
@@ -962,45 +1003,45 @@
         <div class="carousel">
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal2.1">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/cores.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal2.2">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/formas.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal2.3">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/animais.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal2.4">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/formas.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal2.5">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/interacoes.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
@@ -1008,7 +1049,6 @@
         </div>
         <button class="carousel-button next">&#10095;</button>
     </div>
-
 
     <h2>Estimulando a ação motora</h2>
     <h4>Mova o personagem até o seu objetivo.</h4>
@@ -1018,45 +1058,45 @@
         <div class="carousel">
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal3.1">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/abelhaflor.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal3.2">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/cachorrosso.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal3.3">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/lapiscaderno.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal3.4">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/macacobanana.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal3.5">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/naveestrela.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
@@ -1069,30 +1109,26 @@
     <h4>Jogos diversificados para trabalhar o cognitivo.</h4>
 
     <div class="carousel-container">
-
         <div class="carousel">
             <div class="carousel-item">
                 <div class="card-jogos" data-modal="modal4.1">
-                    <img src="img/som1.jpg" alt="">
+                    <img src="img/animais.jpg" alt="">
                     <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
-                            alt="Play">
-                    </div>
-                </div>
-
-            </div>
-       <!--   <div class="carousel-item">
-                <div class="card-jogos" data-modal="modal3.6">
-                    <img src="img/som1.jpg" alt="">
-                    <div class="icon-play">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGxheS1jaXJjbGUtZmlsbCIgdmlld2JveD0iMCAwIDE2IDE2Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYgOEE4IDggMCAxIDEgMCA4YTggOCAwIDAgMSAxNiAwTTYuNzkgNS4wOTNBLjUuNSAwIDAgMCA2IDUuNXY1YS41LjUgMCAwIDAgLjc5LjQwN3wzLjUtMi41YS41LjUgMCAwIDAgMC0uODE0eiIgLz4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3ZnPg=="
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
                             alt="Play">
                     </div>
                 </div>
             </div>
--->  
+            <div class="carousel-item">
+                <div class="card-jogos" data-modal="#"  onclick="alert('Esse jogo está indisponível por enquanto.')">
+                    <img src="img/fundomar.jpg" alt="">
+                    <div class="icon-play">
+                        <img src="https://www.freeiconspng.com/thumbs/button-icon-png/play-button-icon-png-17.png"
+                            alt="Play">
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
 
     <footer class="footer">
@@ -1114,8 +1150,7 @@
             <div class="footer-section">
                 <h3>Parcerias</h3>
                 <ul>
-                    <li style="text-decoration: underline;"><a href="https://ribeiraopires.sp.gov.br/">Prefeitura</a>
-                    </li>
+                    <li style="text-decoration: underline;"><a href="https://ribeiraopires.sp.gov.br/">Prefeitura</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -1138,11 +1173,6 @@
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
-
-        // If you enabled Analytics in your project, add the Firebase SDK for Google Analytics
-        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js'
-
-        // Add Firebase products that you want to use
         import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
         import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
 
@@ -1155,9 +1185,11 @@
             appId: "1:903227924701:web:90d4301331b1259765bb34",
             measurementId: "G-PY6L785E86"
         };
-        const app = initializeApp(firebaseConfig);
 
+        const app = initializeApp(firebaseConfig);
         const auth = getAuth();
+        const db = getFirestore(app);
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
@@ -1170,6 +1202,15 @@
                 // ...
             }
         });
+
+        function SalvarJogo() {
+            const userRef = doc(db, "users", usuario.uid);
+            setDoc(userRef, {
+                quiz1: true,
+            }, { merge: true });
+            console.log("oi");
+            console.log(usuario);
+        }
 
         // Função para abrir o modal
         function openModal(modalId) {
@@ -1229,160 +1270,7 @@
 
         // Dados para os sliders automáticos
         const slidersData = {
-            "slider1.1": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            },
-            "slider1.2": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            },
-            "slider1.3": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Map+1",
-                    "https://via.placeholder.com/250x150?text=Map+2",
-                    "https://via.placeholder.com/250x150?text=Map+3",
-                    "https://via.placeholder.com/250x150?text=Map+4"
-                ],
-                links: ["#map1", "#map2", "#map3", "#map4"]
-            }, "slider1.4": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            },
-            "slider1.5": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            }, "slider2.1": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            },
-            "slider2.2": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            },
-            "slider2.3": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            },
-            "slider2.4": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            },
-            "slider2.5": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            }, "slider3.1": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            },
-            "slider3.2": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            },
-            "slider3.3": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"]
-            },
-            "slider3.4": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"],
-            }
-            ,
-            "slider3.5": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"],
-            },
-            "slider4.1": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"],
-            },
-            "slider4.2": {
-                images: [
-                    "https://via.placeholder.com/250x150?text=Puzzle+1",
-                    "https://via.placeholder.com/250x150?text=Puzzle+2",
-                    "https://via.placeholder.com/250x150?text=Puzzle+3",
-                    "https://via.placeholder.com/250x150?text=Puzzle+4"
-                ],
-                links: ["#puzzle1", "#puzzle2", "#puzzle3", "#puzzle4"],
-            },
-
-        };
-
+        }
         // Inicializar sliders automáticos
         function initializeAutoSliders() {
             Object.keys(slidersData).forEach(sliderId => {
@@ -1434,6 +1322,21 @@
                 container.querySelector('.prev').addEventListener('click', prevSlide);
                 container.querySelector('.next').addEventListener('click', nextSlide);
             });
+        });
+
+        // Funções de acessibilidade
+        document.getElementById('high-contrast').addEventListener('click', function () {
+            document.body.classList.toggle('high-contrast');
+        });
+
+        document.getElementById('decrease-font').addEventListener('click', function () {
+            let currentFontSize = parseFloat(window.getComputedStyle(document.body, null).getPropertyValue('font-size'));
+            document.body.style.fontSize = (currentFontSize - 2) + 'px';
+        });
+
+        document.getElementById('increase-font').addEventListener('click', function () {
+            let currentFontSize = parseFloat(window.getComputedStyle(document.body, null).getPropertyValue('font-size'));
+            document.body.style.fontSize = (currentFontSize + 2) + 'px';
         });
     </script>
 </body>

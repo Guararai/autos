@@ -66,6 +66,7 @@
     h2 {
       font-size: 28px;
       color: #333;
+      margin-bottom: 40px; /* Adicionado espaçamento abaixo da pergunta */
     }
 
     p {
@@ -99,15 +100,16 @@
       background: none;
       border: none;
       cursor: pointer;
+      margin-bottom: 20px; /* Adicionado espaçamento abaixo do botão de áudio */
     }
 
     .option-image {
-      max-width: 150px;
+      max-width: 120px; /* Diminuiu o tamanho das alternativas de imagem */
       cursor: pointer;
       border: 2px solid transparent;
       border-radius: 5px;
       transition: border-color 0.3s;
-      margin: 0 20px; /* Espaço entre as alternativas */
+      margin: 0 40px; /* Aumentado o espaçamento entre as alternativas */
     }
 
     .option-image:hover {
@@ -216,22 +218,24 @@
   <button id="startButton" class="button">Começar Jogo</button>
 
   <div id="quizContainer" class="hidden">
-    <button id="audioButton" class="audio-button" onclick="playAudio()">🔊</button>
     <h2 id="questionText"></h2>
-    <img id="option1" class="option-image" onclick="checkAnswer(0)" src="" alt="Opção 1">
-    <img id="option2" class="option-image" onclick="checkAnswer(1)" src="" alt="Opção 2">
+    <button id="audioButton" class="audio-button" onclick="playAudio()">🔊</button>
+    <div>
+      <img id="option1" class="option-image" onclick="checkAnswer(0)" src="" alt="Opção 1">
+      <img id="option2" class="option-image" onclick="checkAnswer(1)" src="" alt="Opção 2">
+    </div>
     <p id="feedbackMessage" class="hidden"></p>
     <button id="nextPhaseButton" class="button hidden" onclick="nextPhase()">Próxima Fase</button>
     <button id="retryButton" class="button hidden" onclick="restartPhase()">Tentar Novamente</button>
   </div>
 
   <div id="endContainer" class="hidden">
-    <h2>Parabéns! Você Concluiu o jogo!</h2>
-    <a href="../jogos.html">   <button class="button" >Retornar para a página de jogos</button></a>
+    <h2>Parabéns, você acabou o jogo! Continue praticando!</h2>
+    <button class="button" disabled>Retornar para a página de jogos</button>
   </div>
 </div>
 
-<audio id="audio" src="path_to_your_audio_file.mp3" type="audio/mpeg"></audio>
+<audio id="audio" src="" type="audio/mpeg"></audio>
 
 <!-- Modal de opções -->
 <div id="modal">
@@ -240,7 +244,7 @@
 
     <button id="btnContinue">Continuar</button>
     <button id="btnReload">Recarregar</button>
-    <a href="../jogos.html">   <button id="btnExit">Sair do Jogo</button></a> 
+    <button id="btnExit">Sair do Jogo</button>
     <p></p>
     <div id="fontSizeControls">
       <button id="btnDecreaseFont">A-</button>
@@ -254,18 +258,21 @@
   const phases = [
     {
       question: "Qual é a forma?",
-      options: ["path_to_image.png", "path_to_image.png"],
-      correctAnswer: 0
+      options: ["img/circulo.jpg", "img/retangulo.jpg"],
+      correctAnswer: 0,
+      audioSrc: "aud/circulo.mp3"
     },
     {
       question: "Qual é a forma?",
-      options: ["path_to_image.png", "path_to_image.png"],
-      correctAnswer: 1
+      options: ["img/losango.jpg", "img/triangulo.jpg"],
+      correctAnswer: 1,
+      audioSrc: "aud/triangulo.mp3"
     },
     {
       question: "Qual é a forma?",
-      options: ["path_to_image.png", "path_to_image.png"],
-      correctAnswer: 1
+      options: ["img/pentagono.jpg", "img/quadrado.png"],
+      correctAnswer: 1,
+      audioSrc: "aud/quadrado.mp3"
     }
   ];
 
@@ -297,6 +304,7 @@
   startButton.addEventListener("click", startGame);
 
   function startGame() {
+    document.getElementById("title").classList.add("hidden");
     startButton.classList.add("hidden");
     quizContainer.classList.remove("hidden");
     loadPhase();
@@ -305,6 +313,7 @@
   function loadPhase() {
     const phase = phases[currentPhase];
     questionText.textContent = phase.question;
+    audio.src = phase.audioSrc; // Carregar o áudio da fase atual
 
     optionImages.forEach((img, index) => {
       img.src = phase.options[index];
@@ -326,12 +335,15 @@
   function checkAnswer(selectedOption) {
     const phase = phases[currentPhase];
     if (selectedOption === phase.correctAnswer) {
-      feedbackMessage.textContent = "Parabéns! Você acertou!";
+      feedbackMessage.textContent = "Ótimo trabalho! Continue assim!";
+      feedbackMessage.style.color = '#25D366'; // Verde escuro
       feedbackMessage.classList.remove("hidden");
       nextPhaseButton.classList.remove("hidden");
+      nextPhaseButton.style.backgroundColor = '#25D366'; // Verde escuro
       optionImages.forEach(img => img.style.pointerEvents = "none");
     } else {
-      feedbackMessage.textContent = "Você está quase conseguindo! Tente Novamente.";
+      feedbackMessage.textContent = "Você está quase lá! Vamos tentar novamente na próxima!";
+      feedbackMessage.style.color = '#B00020'; // Vermelho escuro
       feedbackMessage.classList.remove("hidden");
       retryButton.classList.remove("hidden");
       optionImages.forEach(img => img.style.pointerEvents = "none");
@@ -356,6 +368,7 @@
   function endGame() {
     quizContainer.classList.add("hidden");
     endContainer.classList.remove("hidden");
+    endContainer.querySelector('h2').style.color = '#25D366'; // Verde escuro
   }
 
   // Funções do Modal
@@ -420,9 +433,11 @@
   function showHint() {
     const phase = phases[currentPhase];
     const correctImage = optionImages[phase.correctAnswer];
-    correctImage.style.borderColor = '#50C4EB';
+    correctImage.style.borderColor = 'red'; // Contorno vermelho
+    correctImage.style.borderWidth = '3px'; // Contorno mais grosso
     setTimeout(() => {
       correctImage.style.borderColor = 'transparent';
+      correctImage.style.borderWidth = '2px';
     }, 3000);
   }
 </script>

@@ -238,10 +238,11 @@
 
 <body>
     <div id="menuButton">&#9776;</div>
+    <div id="hintButton">&#128161;</div>
 
     <div id="modal">
         <div id="modalContent">
-            <div id="modalTitle">Labirinto - Macaco e Bananas</div>
+            <div id="modalTitle">Labirinto - Cachorro e Ossos</div>
             <button id="btnContinue">Continuar</button>
             <button id="btnReload">Recarregar</button>
             <a href="..//jogos.html">
@@ -310,7 +311,7 @@
                 console.log("Dados salvos:", dataWithTimestamp);
 
                 // Redirecionar após sucesso
-             //   window.location.href = "../public/login.html";
+                window.location.href = "../public/login.html";
 
             } catch (error) {
                 console.error("Erro detalhado ao salvar no Firestore:", error);
@@ -379,6 +380,7 @@
         let isDragging = false;
         let dragOffsetX = 0;
         let dragOffsetY = 0;
+        let hintActive = false;
 
         function SalvarJogo() {
             const userRef = doc(db, "users", usuario.uid);
@@ -402,13 +404,13 @@
             wall.style.height = `${height}px`;
             gameArea.appendChild(wall);
         }
+
         function createMaze() {
             // Modified maze layout for this variant
             createWall(0, 0, 800, 20);
             createWall(0, 580, 800, 20);
             createWall(150, 150, 400, 20);
             createWall(150, 300, 400, 20);
-
 
             createWall(0, 0, 20, 600);
             createWall(780, 0, 20, 600);
@@ -423,7 +425,9 @@
             createCoin(200, 75, '🦴');
             createCoin(375, 225, '🦴');
             createCoin(75, 525, '🦴');
-            createCoin(725, 525, '🦴');}
+            createCoin(725, 525, '🦴');
+        }
+
         function createCoin(x, y, character) {
             const coin = document.createElement('div');
             coin.className = 'coin';
@@ -471,6 +475,8 @@
 
         // Verificar colisão com paredes
         function checkWallCollision(x, y) {
+            if (hintActive) return false;
+
             const playerRect = {
                 left: x,
                 top: y,
@@ -524,6 +530,7 @@
 
         // Perder o jogo
         function loseGame() {
+            if (hintActive) return;
             gameState = 'lost';
             player.style.cursor = 'default';
             messageDisplayfracasso.style.display = 'block';
@@ -642,9 +649,37 @@
         });
 
         function showHint() {
-            // Implementar a lógica da dica aqui
+            hintActive = true;
+            const walls = document.querySelectorAll('.wall');
+            walls.forEach(wall => {
+                wall.style.backgroundColor = 'rgba(173, 216, 230, 0.5)'; // Azul claro com baixa opacidade
+            });
+
+            let timer = 5;
+            const timerDisplay = document.createElement('div');
+            timerDisplay.style.position = 'absolute';
+            timerDisplay.style.top = '25px';
+            timerDisplay.style.left = '150px';
+            timerDisplay.style.fontSize = '20px';
+            timerDisplay.textContent = `Tempo: ${timer}s`;
+            gameArea.appendChild(timerDisplay);
+
+            const interval = setInterval(() => {
+                timer--;
+                timerDisplay.textContent = `Tempo: ${timer}s`;
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    hintActive = false;
+                    walls.forEach(wall => {
+                        wall.style.backgroundColor = '#333'; // Restaura a cor original
+                    });
+                    timerDisplay.remove();
+                }
+            }, 1000);
         }
 
         createCards();
     </script>
 </body>
+
+</html>

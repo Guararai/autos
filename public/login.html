@@ -159,6 +159,10 @@ input[type="text"] {
 </head>
 
 <body>
+
+    <script>
+        alert("Para uma experiência completa na nossa plataforma, recomendamos o uso de um computador ou notebook. Os jogos não estão disponíveis em dispositivos móveis.")
+    </script>
     <div class="login-container">
         <a href="home.html"><img class="seta" src="https://static.thenounproject.com/png/1227050-200.png"> </a>
         <div class="logo">
@@ -257,7 +261,7 @@ input[type="text"] {
                 .then((userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
-                    window.location = "index.html";
+                    window.location = "diretrizes.html";
                     // ...
                 })
                 .catch((error) => {

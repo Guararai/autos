@@ -54,12 +54,25 @@
     }
 
     img {
-      max-width: 100px;
+      max-width: 200px; /* Aumentado para 200px */
       margin: 20px 0;
     }
 
     h1, h2, p {
       color: #333;
+    }
+
+    h1 {
+      font-size: 36px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 40px; /* Adicionado espaçamento abaixo da pergunta */
+    }
+
+    p {
+      font-size: 20px;
     }
 
     .button {
@@ -80,6 +93,10 @@
 
     .hidden {
       display: none;
+    }
+
+    .highlight {
+      border: 3px solid red; /* Contorno vermelho e mais grosso */
     }
 
     /* Estilos para o modal */
@@ -195,8 +212,8 @@
   </div>
 
   <div id="endContainer" class="hidden">
-    <h2>Parabéns! Você Concluiu o jogo!</h2>
-    <a href="../jogos.html">   <button class="button" >Retornar para a página de jogos</button></a>
+    <h2>Parabéns, você acabou o jogo! Continue praticando!</h2>
+    <button class="button" disabled>Retornar para a página de jogos</button>
   </div>
 </div>
 
@@ -207,7 +224,7 @@
 
     <button id="btnContinue">Continuar</button>
     <button id="btnReload">Recarregar</button>
-    <a href="../jogos.html">   <button id="btnExit">Sair do Jogo</button></a> 
+    <button id="btnExit">Sair do Jogo</button>
     <p></p>
     <div id="fontSizeControls">
       <button id="btnDecreaseFont">A-</button>
@@ -223,19 +240,19 @@
       question: "Que animal é esse?",
       options: ["Dinossauro", "Macaco", "Leão"],
       correctAnswer: 0, // Aqui é a resposta correta que deve ser representada na ilustração que irá aparecer (de 0 a 2)
-      imageSrc: "data:image/png;base64,..."
+      imageSrc: "https://png.pngtree.com/png-vector/20221221/ourmid/pngtree-dino-baby-png-image_6528109.png"
     },
     {
       question: "O que é isso?",
       options: ["Cachorro", "Gato", "Pato"],
       correctAnswer: 0,
-      imageSrc: "data:image/png;base64,..."
+      imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvp2dRadQX2MADpTEPE4806GtgP1pTao_aKA&s"
     },
     {
       question: "O que é isso?",
       options: ["Um pássaro", "Uma borboleta", "Uma Abelha"],
       correctAnswer: 2,
-      imageSrc: "data:image/png;base64,..."
+      imageSrc: "https://img.freepik.com/vetores-gratis/abelha-inseto-voando_24908-82216.jpg"
     }
   ];
 
@@ -267,6 +284,7 @@
   startButton.addEventListener("click", startGame);
 
   function startGame() {
+    document.getElementById("title").classList.add("hidden");
     startButton.classList.add("hidden");
     quizContainer.classList.remove("hidden");
     loadPhase();
@@ -281,7 +299,7 @@
       button.textContent = phase.options[index];
       button.disabled = false;
       button.classList.remove("hidden");
-      button.style.borderColor = 'transparent'; // Remover contorno ao carregar a fase
+      button.classList.remove("highlight"); // Remover contorno ao carregar a fase
     });
 
     feedbackMessage.classList.add("hidden");
@@ -292,12 +310,15 @@
   function checkAnswer(selectedOption) {
     const phase = phases[currentPhase];
     if (selectedOption === phase.correctAnswer) {
-      feedbackMessage.textContent = "Parabéns! Você acertou!";
+      feedbackMessage.textContent = "Ótimo trabalho! Continue assim!";
+      feedbackMessage.style.color = '#25D366'; // Verde escuro
       feedbackMessage.classList.remove("hidden");
       nextPhaseButton.classList.remove("hidden");
+      nextPhaseButton.style.backgroundColor = '#25D366'; // Verde escuro
       optionButtons.forEach(button => button.disabled = true);
     } else {
-      feedbackMessage.textContent = "Você está quase conseguindo! Tente Novamente.";
+      feedbackMessage.textContent = "Você está quase lá! Vamos tentar novamente na próxima!";
+      feedbackMessage.style.color = '#B00020'; // Vermelho escuro
       feedbackMessage.classList.remove("hidden");
       retryButton.classList.remove("hidden");
       optionButtons.forEach(button => button.disabled = true);
@@ -322,6 +343,7 @@
   function endGame() {
     quizContainer.classList.add("hidden");
     endContainer.classList.remove("hidden");
+    endContainer.querySelector('h2').style.color = '#25D366'; // Verde escuro
   }
 
   // Funções do Modal
@@ -350,12 +372,16 @@
 
   btnIncreaseFont.addEventListener('click', () => {
     fontSize += 2;
-    document.body.style.fontSize = fontSize + 'px';
+    document.querySelectorAll('#container *').forEach(element => {
+      element.style.fontSize = fontSize + 'px';
+    });
   });
 
   btnDecreaseFont.addEventListener('click', () => {
     fontSize = Math.max(fontSize - 2, 12); // Para não diminuir abaixo de 12px
-    document.body.style.fontSize = fontSize + 'px';
+    document.querySelectorAll('#container *').forEach(element => {
+      element.style.fontSize = fontSize + 'px';
+    });
   });
 
   btnHighContrast.addEventListener('click', () => {
@@ -382,12 +408,9 @@
   function showHint() {
     const phase = phases[currentPhase];
     const correctButton = optionButtons[phase.correctAnswer];
-    correctButton.style.borderColor = '#0056b3'; // Azul mais escuro
-    correctButton.style.borderWidth = '2px'; // Adiciona uma borda visível
-    correctButton.style.borderStyle = 'solid'; // Define o estilo da borda
+    correctButton.classList.add("highlight"); // Adiciona a classe de destaque
     setTimeout(() => {
-      correctButton.style.borderColor = 'transparent';
-      correctButton.style.borderWidth = '0'; // Remove a borda
+      correctButton.classList.remove("highlight"); // Remove a classe de destaque após 3 segundos
     }, 3000);
   }
 </script>

@@ -166,7 +166,6 @@ body {
 
 .mascot {
     width: 300px;
-    height: 400px;
     background-image: url('../img/mascot.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -1502,7 +1501,6 @@ h2 {
     border-left: 5px solid #66bb6a;
 }
   
-
     
 
 

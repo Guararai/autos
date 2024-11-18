@@ -212,7 +212,7 @@ header{
 
 .nav-icons .icon a {
  text-decoration: none;
- margin-left: 15px;
+ margin: 5px;
  font-size: 1.4em;
  color: #fff; 
  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -261,7 +261,7 @@ header{
 }
 
 .user-avatar {
- width:  23%;
+ width:  28%;
 
  height: auto;
 }
@@ -394,7 +394,7 @@ wrapper {
 .wrapper .carousel .card {
  scroll-snap-align: start;
  height: 342px;
- background: #fff;
+ background: rgba(255, 255, 255, 0.1);
  border-radius: 8px;
  padding-bottom: 15px;
  display: flex;
@@ -541,6 +541,7 @@ wrapper {
      }
 
      .icon-play {
+        width: 10%;
          position: absolute;
          bottom: 10px;
          right: 10px;

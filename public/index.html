@@ -11,8 +11,8 @@
     <script type="module" src="script/script.js"></script>
     <title>Home</title>
     <style>
-          /* Estilos para o carrossel */
-          .wrapper {
+        /* Estilos para o carrossel */
+        .wrapper {
             position: relative;
             width: 100%;
             overflow: hidden;
@@ -32,7 +32,8 @@
 
         .carousel .card {
             flex: 0 0 auto;
-            margin-right: 20px; /* Espaçamento entre as imagens */
+            margin-right: 20px;
+            /* Espaçamento entre as imagens */
             transition: transform 0.5s linear;
         }
 
@@ -65,7 +66,6 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
-            max-width: 600px;
             position: relative;
         }
 
@@ -91,7 +91,6 @@
         }
 
         .modal-image img {
-            max-width: 100%;
             height: auto;
         }
 
@@ -107,9 +106,12 @@
             padding: 10px 20px;
             cursor: pointer;
         }
+
         .welcome-section {
             background-color: #f0f7ff;
-            padding: 2rem;
+     
+            padding-left: 20rem;
+            padding-right: 15rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -176,8 +178,6 @@
             padding: 2rem;
         }
 
-        
-
         .characters-subtitle {
             color: #666;
             margin-bottom: 2rem;
@@ -214,7 +214,73 @@
             display: inline-block;
         }
 
+        /* Estilos de alto contraste */
+        .high-contrast {
+            background-color: #000;
+            color: #fff;
+        }
 
+        .high-contrast a {
+            color: #ff0;
+        }
+
+        .high-contrast .navbar {
+            background-color: #333;
+        }
+
+        .high-contrast .welcome-section {
+            background-color: #333;
+        }
+
+        .high-contrast .profile-card {
+            background-color: #333;
+            box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .high-contrast .profile-avatar {
+            background-color: #fff;
+        }
+
+        .high-contrast .profile-name {
+            color: #ff0;
+        }
+
+        .high-contrast .profile-stats {
+            color: #ff0;
+        }
+
+        .high-contrast .characters-section {
+            background-color: #333;
+        }
+
+        .high-contrast .character-icon {
+            background-color: #fff;
+        }
+
+        .high-contrast .explore-button {
+            color: #ff0;
+            border-color: #ff0;
+        }
+
+        .high-contrast .modal-content {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .high-contrast .modal-header,
+        .high-contrast .modal-body,
+        .high-contrast .modal-footer {
+            color: #fff;
+        }
+
+        .high-contrast .close-button {
+            color: #ff0;
+        }
+
+        .high-contrast .play-button {
+            background-color: #ff0;
+            color: #000;
+        }
     </style>
 </head>
 
@@ -238,39 +304,38 @@
         const auth = getAuth();
         const db = getFirestore(app);
         onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        try {
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            
-            if (userDoc.exists()) {
-                const userData = userDoc.data();
-                let displayName = userData.fullName;
-                
-                // Atualizar nome do usuário
-                if (displayName) {
-                    document.getElementById('username').textContent = displayName;
-                }
+            if (user) {
+                try {
+                    const userDoc = await getDoc(doc(db, "users", user.uid));
 
-                // Contar campos que são true
-                let completedGames = 0;
-                Object.entries(userData).forEach(([key, value]) => {
-                    if (value === true) {
-                        completedGames++;
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data();
+                        let displayName = userData.fullName;
+
+                        // Atualizar nome do usuário
+                        if (displayName) {
+                            document.getElementById('username').textContent = displayName;
+                        }
+
+                        // Contar campos que são true
+                        let completedGames = 0;
+                        Object.entries(userData).forEach(([key, value]) => {
+                            if (value === true) {
+                                completedGames++;
+                            }
+                        });
+
+                        // Atualiza o contador na interface
+                        document.getElementById('jogoscompletos').textContent = completedGames;
                     }
-                });
-                
-                // Atualiza o contador na interface
-                document.getElementById('jogoscompletos').textContent = completedGames;
+                } catch (error) {
+                    console.error("Erro ao buscar dados do usuário:", error);
+                }
+            } else {
+                // Usuário não está logado
+                //    window.location.href = 'login.html';
             }
-        } catch (error) {
-            console.error("Erro ao buscar dados do usuário:", error);
-        }
-    } else {
-        // Usuário não está logado
-    //    window.location.href = 'login.html';
-    }
-});
-          
+        });
     </script>
 
     <header>
@@ -284,12 +349,12 @@
                 <li><a href="progresso.html">Progresso</a></li>
             </ul>
             <ul class="nav-icons">
-                <li class="icon"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                <li class="icon"><a href="#" id="high-contrast"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                             fill="currentColor" class="bi bi-circle-half" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16" />
                         </svg></a></li>
-                <li class="icon"><a href="#">A-</a></li>
-                <li class="icon acessib"><a href="#">A+</a></li>
+                <li class="icon"><a href="#" id="decrease-font">A-</a></li>
+                <li class="icon acessib"><a href="#" id="increase-font">A+</a></li>
 
                 <li class="icon"><a href="perfil.html"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                             height="24" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -297,89 +362,78 @@
                             <path fill-rule="evenodd"
                                 d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                         </svg></a></li>
-
             </ul>
         </nav>
     </header>
     <main>
         <section class="welcome-section">
-             
-         
             <div class="welcome-text">
-                            
-                            <div>
-                                <h1>Bem-vindo</h1>
-                                <h2>Como é bom ter você por aqui.<h2>
-                            </div>
-                
+                <div>
+                    <h1>Bem-vindo</h1>
+                    <h2>Como é bom ter você por aqui!<h2>
+                </div>
                 <a href="jogos.html"><button class="play-btn">Jogar</button></a>
             </div>
-           
+            <img style="width: auto;" src="img/MascotePublic.png">
         </section>
 
         <section class="profile-card">
             <img srcset="https://images.vexels.com/content/150881/preview/baby-rubber-duck-circle-icon-53725b.png" alt="User Avatar" class="user-avatar">
             <h2 class="profile-name"><span id="username"></span></h2>
-            <p class="profile-stats">Jogos concluídos: <span id="jogoscompletos"></span>/17</p>
-            <p class="profile-stats">Parabéns!</p>
+            <h2 class="profile-stats">Jogos concluídos: <span id="jogoscompletos"></span>/17</h2>
+            <h2 class="profile-stats">Parabéns!</h2>
         </section>
 
         <section class="characters-section">
-            <h3 style="margin-right: 3%;" class="characters-title">Nossos personagens estão te esperando!</h3>
-            <p class="characters-subtitle">Gostou de algum? Clique para jogar</p>
+            <h2 class="characters-title">Nossos personagens estão te esperando!</h2>
+            <h2 class="characters-subtitle">Gostou de algum? Clique para jogar</h2>
             <section id="imagens">
                 <div class="wrapper">
-                    <a href="jogos.html"> 
                     <ul class="carousel">
-             
-                        <li class="card card-jogos" data-modal="#">
+                        <li class="card card-jogos" data-modal="modal3.1">
                             <div class="img">
-                                <img src="images/img1.jpg" alt="" draggable="false" />
+                                <img src="https://cdn.creazilla.com/emojis/55669/honeybee-emoji-clipart-lg.png" alt="" draggable="false" />
                             </div>
                             <h2></h2>
                             <span></span>
                         </li>
-                        <li class="card card-jogos">
+                        <li class="card card-jogos" data-modal="modal3.2">
                             <div class="img">
-                                <img src="images/img2.jpg" alt="" draggable="false" />
+                                <img src="https://images.emojiterra.com/google/android-11/512px/1f436.png   " alt="" draggable="false" />
                             </div>
                             <h2></h2>
                             <span></span>
                         </li>
-                        <li class="card card-jogos">
+                        <li class="card card-jogos" data-modal="modal3.3">
                             <div class="img">
-                                <img src="images/img3.jpg" alt="" draggable="false" />
+                                <img src="https://images.emojiterra.com/google/android-11/512px/1f412.png" alt="" draggable="false" />
                             </div>
                             <h2></h2>
                             <span></span>
                         </li>
-                        <li class="card card-jogos">
+                        <li class="card card-jogos" data-modal="modal3.4">
                             <div class="img">
-                                <img src="images/img3.jpg" alt="" draggable="false" />
+                                <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/1024px/1f6f8_color.png" alt="" draggable="false" />
                             </div>
                             <h2></h2>
                             <span></span>
                         </li>
-                        <li class="card card-jogos">
+                        <li class="card card-jogos" data-modal="modal3.5">
                             <div class="img">
-                                <img src="images/img3.jpg" alt="" draggable="false" />
+                                <img src="https://images.emojiterra.com/google/android-12l/512px/270f.png" alt="" draggable="false" />
                             </div>
                             <h2></h2>
                             <span></span>
                         </li>
                     </ul>
-                </a>
                 </div>
             </section>
             <br>
-            <h3 style="margin-right: 3%;">Explore todos os jogos!<h3>
-      
-
-            <a  style="margin-right: 3%; width: 10% ;" href="jogos.html" class="explore-button">Jogos</a>
+            <h2>Explore todos os jogos!<h2>
+                <a  href="jogos.html" class="explore-button">Jogos</a>
         </section>
     </main>
 
-    
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -420,107 +474,212 @@
         </div>
     </footer>
 
-    <div class="modal" id="modal1">
+    <div class="modal" id="modal3.1">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Relacionando Sons - Alimentos</h2>
+                <h2 class="modal-title">Labirinto - Abelha e Flores</h2>
                 <button class="close-button">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-image">
-                    <img src="img/som1.jpg" alt="Som 1">
+                    <img src="img/abelhaflor.jpg" alt="">
                 </div>
                 <div class="modal-description">
-                    <h3>Descrição do Jogo</h3>
+                    <h2>Descrição do Jogo</h2>
                     <br>
-                    <p>Encontre os pares de animais.</p>
+                    <br>
+                    <p><span style="font-weight: bold;">Objetivo:</span> Arrastar a abelha com o mouse e coletar
+                        as flores no labirinto. </p>
                     <br>
                     <ul>
-                        <li>Número de fases: 1</li>
+                        <li><span style="font-weight: bold;">Tema:</span> Abelha e flores.</li>
                         <br>
-                        <li>Categoria: Jogo extra</li>
+                        <li><span style="font-weight: bold;">Número de fases:</span> 1.</li>
                         <br>
-                        <li>Acessibilidades: imagens com legendas auditivas, contraste, aumentar ou diminuir fonte.</li>
+                        <li><span style="font-weight: bold;">Categoria:</span> Estimular a ação motora.</li>
+                        <br>
+                        <li><span style="font-weight: bold;">Acessibilidades:</span> Libras, contraste
+                            ajustável, aumentar ou diminuir fonte.</li>
+                        <br>
                     </ul>
                 </div>
                 <!-- Slider para jogos de quebra-cabeça -->
             </div>
             <div class="modal-footer">
-                <button class="play-button">Jogar Agora</button>
+                <a href="jogos/MouseGame1.html"><button class="play-button">Jogar Agora</button></a>
             </div>
             <p><br></p>
             <div class="slider">
-                <div class="slide-track right" id="puzzle-slider"></div>
+                <div class="slide-track right" id="slider3.1">
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="modal2">
+    <div class="modal" id="modal3.2">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Relacionando Sons - Alimentos</h2>
+                <h2 class="modal-title">Labirinto - Cachorro e Ossos</h2>
                 <button class="close-button">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-image">
-                    <img src="img/som2.jpg" alt="Som 2">
+                    <img src="img/cachorrosso.jpg" alt="">
                 </div>
                 <div class="modal-description">
-                    <h3>Descrição do Jogo</h3>
+                    <h2>Descrição do Jogo</h2>
                     <br>
-                    <p>Encontre os pares de animais.</p>
+                    <br>
+                    <p><span style="font-weight: bold;">Objetivo:</span> Arrastar o cachorro com o mouse e
+                        coletar os ossos no labirinto. </p>
                     <br>
                     <ul>
-                        <li>Número de fases: 1</li>
+                        <li><span style="font-weight: bold;">Tema:</span> Cachorro e ossos.</li>
                         <br>
-                        <li>Categoria: Jogo extra</li>
+                        <li><span style="font-weight: bold;">Número de fases:</span> 1.</li>
                         <br>
-                        <li>Acessibilidades: imagens com legendas auditivas, contraste, aumentar ou diminuir fonte.</li>
+                        <li><span style="font-weight: bold;">Categoria:</span> Estimular a ação motora.</li>
+                        <br>
+                        <li><span style="font-weight: bold;">Acessibilidades:</span> Libras, contraste
+                            ajustável, aumentar ou diminuir fonte.</li>
+                        <br>
                     </ul>
                 </div>
                 <!-- Slider para jogos de quebra-cabeça -->
             </div>
             <div class="modal-footer">
-                <button class="play-button">Jogar Agora</button>
+                <a href="jogos/MouseGame2.html"><button class="play-button">Jogar Agora</button></a>
             </div>
             <p><br></p>
             <div class="slider">
-                <div class="slide-track right" id="puzzle-slider"></div>
+                <div class="slide-track right" id="slider3.2">
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="modal3">
+    <div class="modal" id="modal3.3">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Relacionando Sons - Alimentos</h2>
+                <h2 class="modal-title">Labirinto - Lápis e Cadernos</h2>
                 <button class="close-button">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-image">
-                    <img src="img/som3.jpg" alt="Som 3">
+                    <img src="img/lapiscaderno.jpg" alt="">
                 </div>
                 <div class="modal-description">
-                    <h3>Descrição do Jogo</h3>
+                    <h2>Descrição do Jogo</h2>
                     <br>
-                    <p>Encontre os pares de animais.</p>
+                    <br>
+                    <p><span style="font-weight: bold;">Objetivo:</span> Arrastar o lápis com o mouse e coletar
+                        os cadernos no labirinto. </p>
                     <br>
                     <ul>
-                        <li>Número de fases: 1</li>
+                        <li><span style="font-weight: bold;">Tema:</span> Lápis e cadernos.</li>
                         <br>
-                        <li>Categoria: Jogo extra</li>
+                        <li><span style="font-weight: bold;">Número de fases:</span> 1.</li>
                         <br>
-                        <li>Acessibilidades: imagens com legendas auditivas, contraste, aumentar ou diminuir fonte.</li>
+                        <li><span style="font-weight: bold;">Categoria:</span> Estimular a ação motora.</li>
+                        <br>
+                        <li><span style="font-weight: bold;">Acessibilidades:</span> Libras, contraste
+                            ajustável, aumentar ou diminuir fonte.</li>
+                        <br>
                     </ul>
                 </div>
                 <!-- Slider para jogos de quebra-cabeça -->
             </div>
             <div class="modal-footer">
-                <button class="play-button">Jogar Agora</button>
+                <a href="jogos/MouseGame3.html"><button class="play-button">Jogar Agora</button></a>
             </div>
             <p><br></p>
             <div class="slider">
-                <div class="slide-track right" id="puzzle-slider"></div>
+                <div class="slide-track right" id="slider3.3">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal3.4">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Labirinto - Macaco e Bananas</h2>
+                <button class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img src="img/macacobanana.jpg" alt="">
+                </div>
+                <div class="modal-description">
+                    <h2>Descrição do Jogo</h2>
+                    <br>
+                    <br>
+                    <p><span style="font-weight: bold;">Objetivo:</span> Arrastar o macaco com o mouse e coletar
+                        as bananas no labirinto. </p>
+                    <br>
+                    <ul>
+                        <li><span style="font-weight: bold;">Tema:</span> Macaco e bananas.</li>
+                        <br>
+                        <li><span style="font-weight: bold;">Número de fases:</span> 1.</li>
+                        <br>
+                        <li><span style="font-weight: bold;">Categoria:</span> Estimular a ação motora.</li>
+                        <br>
+                        <li><span style="font-weight: bold;">Acessibilidades:</span> Libras, contraste
+                            ajustável, aumentar ou diminuir fonte.</li>
+                        <br>
+                    </ul>
+                </div>
+                <!-- Slider para jogos de quebra-cabeça -->
+            </div>
+            <div class="modal-footer">
+                <a href="jogos/MouseGame4.html"><button class="play-button">Jogar Agora</button></a>
+            </div>
+            <p><br></p>
+            <div class="slider">
+                <div class="slide-track right" id="slider3.4">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal3.5">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Labirinto - Espaçonave e Estrelas</h2>
+                <button class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img src="img/naveestrela.jpg" alt="">
+                </div>
+                <div class="modal-description">
+                    <h2>Descrição do Jogo</h2>
+                    <br>
+                    <br>
+                    <p><span style="font-weight: bold;">Objetivo:</span> Arrastar a espaçonave com o mouse e
+                        coletar as estrelas no labirinto. </p>
+                    <br>
+                    <ul>
+                        <li><span style="font-weight: bold;">Tema:</span> Espaçonave e estrelas.</li>
+                        <br>
+                        <li><span style="font-weight: bold;">Número de fases:</span> 1.</li>
+                        <br>
+                        <li><span style="font-weight: bold;">Categoria:</span> Estimular a ação motora.</li>
+                        <br>
+                        <li><span style="font-weight: bold;">Acessibilidades:</span> Libras, contraste
+                            ajustável, aumentar ou diminuir fonte.</li>
+                        <br>
+                    </ul>
+                </div>
+                <!-- Slider para jogos de quebra-cabeça -->
+            </div>
+            <div class="modal-footer">
+                <a href="jogos/MouseGame5.html"><button class="play-button">Jogar Agora</button></a>
+            </div>
+            <p><br></p>
+            <div class="slider">
+                <div class="slide-track right" id="slider3.5">
+                </div>
             </div>
         </div>
     </div>
@@ -671,6 +830,21 @@
             content.addEventListener('click', (e) => {
                 e.stopPropagation();
             });
+        });
+
+        // Funções de acessibilidade
+        document.getElementById('high-contrast').addEventListener('click', function () {
+            document.body.classList.toggle('high-contrast');
+        });
+
+        document.getElementById('decrease-font').addEventListener('click', function () {
+            let currentFontSize = parseFloat(window.getComputedStyle(document.body, null).getPropertyValue('font-size'));
+            document.body.style.fontSize = (currentFontSize - 2) + 'px';
+        });
+
+        document.getElementById('increase-font').addEventListener('click', function () {
+            let currentFontSize = parseFloat(window.getComputedStyle(document.body, null).getPropertyValue('font-size'));
+            document.body.style.fontSize = (currentFontSize + 2) + 'px';
         });
     </script>
 </body>

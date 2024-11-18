@@ -67,6 +67,7 @@
     h2 {
       font-size: 28px;
       color: #333;
+      margin-bottom: 40px; /* Adicionado espaçamento abaixo da pergunta */
     }
 
     p {
@@ -93,6 +94,10 @@
 
     .hidden {
       display: none;
+    }
+
+    .highlight {
+      border: 3px solid red; /* Contorno vermelho e mais grosso */
     }
 
     /* Estilos para o modal */
@@ -208,8 +213,8 @@
   </div>
 
   <div id="endContainer" class="hidden">
-    <h2>Parabéns! Você Concluiu o jogo!</h2>
-    <a href="../jogos.html">   <button class="button">Retornar para a página de jogos</button></a>
+    <h2>Parabéns, você acabou o jogo! Continue praticando!</h2>
+    <button class="button" disabled>Retornar para a página de jogos</button>
   </div>
 </div>
 
@@ -220,7 +225,7 @@
 
     <button id="btnContinue">Continuar</button>
     <button id="btnReload">Recarregar</button>
-    <a href="../jogos.html">   <button id="btnExit">Sair do Jogo</button></a> 
+    <button id="btnExit">Sair do Jogo</button>
     <p></p>
     <div id="fontSizeControls">
       <button id="btnDecreaseFont">A-</button>
@@ -235,20 +240,20 @@
     {
       question: "Qual fruta é essa?",
       options: ["Abacaxi", "Maçã", "Banana"],
-      correctAnswer: 0, // Aqui é a resposta correta que deve ser representada na ilustração que irá aparecer (de 0 a 2)
-      imageSrc: "./img/"
+      correctAnswer: 0,
+      imageSrc: "https://png.pngtree.com/png-clipart/20221208/ourmid/pngtree-pineapple-png-image_6516173.png"
     },
     {
       question: "O que é isso?",
       options: ["Brinquedo", "Cenoura", "Tomate"],
       correctAnswer: 1,
-      imageSrc: "data:image/png;base64,..."
+      imageSrc: "https://png.pngtree.com/png-clipart/20230102/original/pngtree-fresh-carrot-vegetable-sticker-image-png-image_8855347.png"
     },
     {
       question: "O que é isso?",
       options: ["Doce", "Carne", "Fruta"],
       correctAnswer: 2,
-      imageSrc: "data:image/png;base64,..."
+      imageSrc: "https://greenpng.com/wp-content/uploads/2021/10/Desenho-de-morango-grande-1024x953.png"
     }
   ];
 
@@ -280,6 +285,7 @@
   startButton.addEventListener("click", startGame);
 
   function startGame() {
+    document.getElementById("title").classList.add("hidden");
     startButton.classList.add("hidden");
     quizContainer.classList.remove("hidden");
     loadPhase();
@@ -294,7 +300,7 @@
       button.textContent = phase.options[index];
       button.disabled = false;
       button.classList.remove("hidden");
-      button.style.borderColor = 'transparent'; // Remover contorno ao carregar a fase
+      button.classList.remove("highlight"); // Remover contorno ao carregar a fase
     });
 
     feedbackMessage.classList.add("hidden");
@@ -305,12 +311,15 @@
   function checkAnswer(selectedOption) {
     const phase = phases[currentPhase];
     if (selectedOption === phase.correctAnswer) {
-      feedbackMessage.textContent = "Parabéns! Você acertou!";
+      feedbackMessage.textContent = "Ótimo trabalho! Continue assim!";
+      feedbackMessage.style.color = '#25D366'; // Verde escuro
       feedbackMessage.classList.remove("hidden");
       nextPhaseButton.classList.remove("hidden");
+      nextPhaseButton.style.backgroundColor = '#25D366'; // Verde escuro
       optionButtons.forEach(button => button.disabled = true);
     } else {
-      feedbackMessage.textContent = "Você está quase conseguindo! Tente Novamente.";
+      feedbackMessage.textContent = "Você está quase lá! Vamos tentar novamente na próxima!";
+      feedbackMessage.style.color = '#B00020'; // Vermelho escuro
       feedbackMessage.classList.remove("hidden");
       retryButton.classList.remove("hidden");
       optionButtons.forEach(button => button.disabled = true);
@@ -335,6 +344,7 @@
   function endGame() {
     quizContainer.classList.add("hidden");
     endContainer.classList.remove("hidden");
+    endContainer.querySelector('h2').style.color = '#25D366'; // Verde escuro
   }
 
   // Funções do Modal
@@ -399,12 +409,9 @@
   function showHint() {
     const phase = phases[currentPhase];
     const correctButton = optionButtons[phase.correctAnswer];
-    correctButton.style.borderColor = '#0056b3'; // Azul mais escuro
-    correctButton.style.borderWidth = '2px'; // Adiciona uma borda visível
-    correctButton.style.borderStyle = 'solid'; // Define o estilo da borda
+    correctButton.classList.add("highlight"); // Adiciona a classe de destaque
     setTimeout(() => {
-      correctButton.style.borderColor = 'transparent';
-      correctButton.style.borderWidth = '0'; // Remove a borda
+      correctButton.classList.remove("highlight"); // Remove a classe de destaque após 3 segundos
     }, 3000);
   }
 </script>

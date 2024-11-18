@@ -58,6 +58,12 @@
       margin: 20px 0;
     }
 
+    .phase-image {
+      width: 100px;
+      height: 150px;
+      margin: 20px 0;
+    }
+
     h1 {
       font-size: 36px;
       color: #333;
@@ -99,16 +105,19 @@
       margin: 20px;
     }
 
-    .option-image {
-      max-width: 150px;
+    .option-button {
+      width: 200px; /* Tamanho fixo para os botões das alternativas */
+      padding: 10px;
+      font-size: 16px; /* Ajuste da fonte para garantir que o texto caiba bem */
       cursor: pointer;
       border: 2px solid transparent;
       border-radius: 5px;
       transition: border-color 0.3s;
-      margin: 0 20px;
+      margin: 10px 0;
+      text-align: center;
     }
 
-    .option-image:hover {
+    .option-button:hover {
       border-color: #007ACC;
     }
 
@@ -214,18 +223,20 @@
   <button id="startButton" class="button">Começar Jogo</button>
 
   <div id="quizContainer" class="hidden">
-    <img src="path_to_your_audio_icon.png" alt="imagem ação" class="audio-image">
     <h2 id="questionText"></h2>
-    <img id="option1" class="option-image" onclick="checkAnswer(0)" src="" alt="Opção 1">
-    <img id="option2" class="option-image" onclick="checkAnswer(1)" src="" alt="Opção 2">
+    <img id="phaseImage" src="" alt="Imagem da Fase" class="phase-image">
+    <div>
+      <button id="option1" class="option-button button" onclick="checkAnswer(0)">Opção 1</button>
+      <button id="option2" class="option-button button" onclick="checkAnswer(1)">Opção 2</button>
+    </div>
     <p id="feedbackMessage" class="hidden"></p>
     <button id="nextPhaseButton" class="button hidden" onclick="nextPhase()">Próxima Fase</button>
     <button id="retryButton" class="button hidden" onclick="restartPhase()">Tentar Novamente</button>
   </div>
 
   <div id="endContainer" class="hidden">
-    <h2>Parabéns! Você Concluiu o jogo!</h2>
- <a href="../jogos.html">   <button class="button" >Retornar para a página de jogos</button></a>
+    <h2>Parabéns, você acabou o jogo! Continue praticando!</h2>
+    <button class="button" disabled>Retornar para a página de jogos</button>
   </div>
 </div>
 
@@ -236,7 +247,7 @@
 
     <button id="btnContinue">Continuar</button>
     <button id="btnReload">Recarregar</button>
-    <a href="../jogos.html">   <button id="btnExit">Sair do Jogo</button></a> 
+    <button id="btnExit">Sair do Jogo</button>
     <p></p>
     <div id="fontSizeControls">
       <button id="btnDecreaseFont">A-</button>
@@ -250,18 +261,21 @@
   const phases = [
     {
       question: "Qual é a ação?",
-      options: ["path_to_image.png", "path_to_image.png"],
-      correctAnswer: 0
+      options: ["Cumprimento", "Corrida"],
+      correctAnswer: 0,
+      phaseImage: "img/cumprimento.jpg"
     },
     {
       question: "Qual é a ação?",
-      options: ["path_to_image.png", "path_to_image.png"],
-      correctAnswer: 1
+      options: ["Grito", "Abraço"],
+      correctAnswer: 1,
+      phaseImage: "img/abraço.jpg"
     },
     {
       question: "Qual é a ação?",
-      options: ["path_to_image.png", "path_to_image.png"],
-      correctAnswer: 1
+      options: ["Beijo", "Aperto de mão"],
+      correctAnswer: 1,
+      phaseImage: "img/aperto-de-mao.jpg"
     }
   ];
 
@@ -274,7 +288,8 @@
   const nextPhaseButton = document.getElementById("nextPhaseButton");
   const retryButton = document.getElementById("retryButton");
   const endContainer = document.getElementById("endContainer");
-  const optionImages = [document.getElementById("option1"), document.getElementById("option2")];
+  const optionButtons = [document.getElementById("option1"), document.getElementById("option2")];
+  const phaseImageElement = document.getElementById("phaseImage");
   const audio = document.getElementById("audio");
 
   const menuButton = document.getElementById('menuButton');
@@ -293,6 +308,7 @@
   startButton.addEventListener("click", startGame);
 
   function startGame() {
+    document.getElementById("title").classList.add("hidden");
     startButton.classList.add("hidden");
     quizContainer.classList.remove("hidden");
     loadPhase();
@@ -301,12 +317,13 @@
   function loadPhase() {
     const phase = phases[currentPhase];
     questionText.textContent = phase.question;
+    phaseImageElement.src = phase.phaseImage;
 
-    optionImages.forEach((img, index) => {
-      img.src = phase.options[index];
-      img.style.pointerEvents = "auto";
-      img.classList.remove("hidden");
-      img.style.borderColor = 'transparent'; // Remover contorno ao carregar a fase
+    optionButtons.forEach((button, index) => {
+      button.textContent = phase.options[index];
+      button.style.pointerEvents = "auto";
+      button.classList.remove("hidden");
+      button.style.borderColor = 'transparent'; // Remover contorno ao carregar a fase
     });
 
     feedbackMessage.classList.add("hidden");
@@ -317,15 +334,18 @@
   function checkAnswer(selectedOption) {
     const phase = phases[currentPhase];
     if (selectedOption === phase.correctAnswer) {
-      feedbackMessage.textContent = "Parabéns! Você acertou!";
+      feedbackMessage.textContent = "Ótimo trabalho! Continue assim!";
+      feedbackMessage.style.color = '#25D366'; // Verde escuro
       feedbackMessage.classList.remove("hidden");
       nextPhaseButton.classList.remove("hidden");
-      optionImages.forEach(img => img.style.pointerEvents = "none");
+      nextPhaseButton.style.backgroundColor = '#25D366'; // Verde escuro
+      optionButtons.forEach(button => button.style.pointerEvents = "none");
     } else {
-      feedbackMessage.textContent = "Você está quase conseguindo! Tente Novamente.";
+      feedbackMessage.textContent = "Você está quase lá! Vamos tentar novamente na próxima!";
+      feedbackMessage.style.color = '#B00020'; // Vermelho escuro
       feedbackMessage.classList.remove("hidden");
       retryButton.classList.remove("hidden");
-      optionImages.forEach(img => img.style.pointerEvents = "none");
+      optionButtons.forEach(button => button.style.pointerEvents = "none");
     }
   }
 
@@ -347,6 +367,7 @@
   function endGame() {
     quizContainer.classList.add("hidden");
     endContainer.classList.remove("hidden");
+    endContainer.querySelector('h2').style.color = '#25D366'; // Verde escuro
   }
 
   // Funções do Modal
@@ -410,10 +431,12 @@
 
   function showHint() {
     const phase = phases[currentPhase];
-    const correctImage = optionImages[phase.correctAnswer];
-    correctImage.style.borderColor = '#50C4EB';
+    const correctButton = optionButtons[phase.correctAnswer];
+    correctButton.style.borderColor = 'red'; // Contorno vermelho
+    correctButton.style.borderWidth = '3px'; // Contorno mais grosso
     setTimeout(() => {
-      correctImage.style.borderColor = 'transparent';
+      correctButton.style.borderColor = 'transparent';
+      correctButton.style.borderWidth = '2px';
     }, 3000);
   }
 </script>

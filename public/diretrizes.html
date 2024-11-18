@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviso</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #7dd3fc;
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 600px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .content {
+            line-height: 1.6;
+        }
+
+        .bullet-points {
+            padding-left: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .bullet-points li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .access-button {
+            background-color: #4ade80;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .access-button:hover {
+            background-color: #22c55e;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+        <a href="login.html">    <button class="back-button">←</button></a>
+            <h1 class="title">Aviso ⚠️</h1>
+        </div>
+        
+        <div class="content">
+            <p>A Equipe AUTOS está muito feliz em recebê-lo(a)! Não se preocupe, já na próxima página, você encontrará conteúdo especialmente desenvolvido para a criança autista. Antes de prosseguir, leia com atenção alguns avisos importantes:</p>
+            
+            <ul class="bullet-points">
+                <li>A plataforma AUTOS é um recurso complementar e não substitui o trabalho de profissionais de saúde e terapias especializadas;</li>
+                <li>Recomendamos que a criança seja supervisionada e acompanhada especialmente no início do uso da plataforma;</li>
+                <li>Sugestão de uso: para evitar o reforço de comportamentos inadequados, sugerimos um limite de 30 minutos de uso diário;</li>
+                <li>Privacidade e transparência: AUTOS coleta o mínimo de dados necessário, sempre com transparência;</li>
+                <li>Os Termos de Uso e a Política de Privacidade estão disponíveis a qualquer momento no perfil do usuário;</li>
+                <li>Em caso de dúvidas ou solicitações, entre em contato pelo nosso suporte.</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>Agradecemos pela preferência e desejamos uma ótima experiência!</p>
+           <a href="index.html"><button class="access-button" onclick="handleAccess()">Acessar</button></a> 
+        </div>
+    </div>
+
+
+</body>
+</html>
