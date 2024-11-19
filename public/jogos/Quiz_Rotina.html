@@ -203,17 +203,17 @@
   <div id="quizContainer" class="hidden">
     <img id="questionImage" src="" alt="Imagem da Pergunta">
     <h2 id="questionText"></h2>
-    <button id="option1" class="button" onclick="checkAnswer(0)">Opção 1</button>
-    <button id="option2" class="button" onclick="checkAnswer(1)">Opção 2</button>
-    <button id="option3" class="button" onclick="checkAnswer(2)">Opção 3</button>
+    <button id="option1" class="button">Opção 1</button>
+    <button id="option2" class="button">Opção 2</button>
+    <button id="option3" class="button">Opção 3</button>
     <p id="feedbackMessage" class="hidden"></p>
-    <button id="nextPhaseButton" class="button hidden" onclick="nextPhase()">Próxima Fase</button>
-    <button id="retryButton" class="button hidden" onclick="restartPhase()">Tentar Novamente</button>
+    <button id="nextPhaseButton" class="button hidden">Próxima Fase</button>
+    <button id="retryButton" class="button hidden">Tentar Novamente</button>
   </div>
 
   <div id="endContainer" class="hidden">
     <h2>Parabéns, você acabou o jogo! Continue praticando!</h2>
-    <button class="button" disabled>Retornar para a página de jogos</button>
+    <a href="../jogos.html">    <button class="button" disabled>Retornar para a página de jogos</button></a>
   </div>
 </div>
 
@@ -224,7 +224,7 @@
 
     <button id="btnContinue">Continuar</button>
     <button id="btnReload">Recarregar</button>
-    <button id="btnExit">Sair do Jogo</button>
+    <a href="../jogos.html">    <button id="btnExit">Sair do Jogo</button></a>
     <p></p>
     <div id="fontSizeControls">
       <button id="btnDecreaseFont">A-</button>
@@ -234,7 +234,48 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
+  import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js'
+  import {
+    getAuth,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+    updateProfile
+  } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
+  import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBVJIKGivD0wnr4FxAMB-kz8oCNtcLmtYs",
+    authDomain: "autos-34b01.firebaseapp.com",
+    projectId: "autos-34b01",
+    storageBucket: "autos-34b01.appspot.com",
+    messagingSenderId: "903227924701",
+    appId: "1:903227924701:web:90d4301331b1259765bb34",
+    measurementId: "G-PY6L785E86"
+  };
+
+  // Iniciando as configurações
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  let usuario;
+
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      usuario = user;
+      const uid = user.uid;
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
+
   const phases = [
     {
       question: "O que é isso?",
@@ -300,6 +341,7 @@
       button.disabled = false;
       button.classList.remove("hidden");
       button.classList.remove("highlight"); // Remover contorno ao carregar a fase
+      button.onclick = () => checkAnswer(index); // Adicionar evento de clique
     });
 
     feedbackMessage.classList.add("hidden");
@@ -307,7 +349,7 @@
     retryButton.classList.add("hidden");
   }
 
-  function checkAnswer(selectedOption) {
+  window.checkAnswer = function(selectedOption) {
     const phase = phases[currentPhase];
     if (selectedOption === phase.correctAnswer) {
       feedbackMessage.textContent = "Ótimo trabalho! Continue assim!";
@@ -323,7 +365,7 @@
       retryButton.classList.remove("hidden");
       optionButtons.forEach(button => button.disabled = true);
     }
-  }
+  };
 
   function restartPhase() {
     feedbackMessage.classList.add("hidden");
@@ -344,6 +386,23 @@
     quizContainer.classList.add("hidden");
     endContainer.classList.remove("hidden");
     endContainer.querySelector('h2').style.color = '#25D366'; // Verde escuro
+    SalvarJogo();
+  }
+
+  async function SalvarJogo() {
+    if (usuario) {
+      const userRef = doc(db, "users", usuario.uid);
+      try {
+        await setDoc(userRef, {
+          quiz4: true,
+        }, { merge: true });
+        console.log("Jogo salvo no Firebase com sucesso!");
+      } catch (error) {
+        console.error("Erro ao salvar no Firebase:", error);
+      }
+    } else {
+      console.error("Usuário não autenticado.");
+    }
   }
 
   // Funções do Modal
@@ -413,6 +472,10 @@
       correctButton.classList.remove("highlight"); // Remove a classe de destaque após 3 segundos
     }, 3000);
   }
+
+  // Adicionar eventos de clique aos botões de próxima fase e tentar novamente
+  nextPhaseButton.addEventListener('click', nextPhase);
+  retryButton.addEventListener('click', restartPhase);
 </script>
 
 </body>
