@@ -27,7 +27,7 @@ onAuthStateChanged(auth, (user) => {
         username.textContent = user.displayName ? user.displayName : user.email;
 
     } else {
-        window.location = "/login";
+     //   window.location = "/login";
     }
 });
 
@@ -35,7 +35,7 @@ const logout = document.getElementById("logout");
 logout.onclick = function (e) {
     const auth = getAuth();
     signOut(auth).then(() => {
-        window.location = "/login";
+     //   window.location = "/login";
     }).catch((error) => {
 
     });

@@ -1,497 +1,684 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Sobre Alimentos</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #E3F4FA;
-      font-family: Arial, sans-serif;
-      font-size: 24px; /* Define um tamanho de fonte inicial */
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Labirinto</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: 16px;
+        }
 
-    #menuButton,
-    #hintButton {
-      position: absolute;
-      width: 55px;
-      height: 55px;
-      background-color: #fff;
-      border-radius: 50%;
-      box-shadow: 0px 2px 5px rgba(80, 196, 235, 0.6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      font-size: 24px;
-      color: rgba(80, 196, 235, 0.6);
-    }
+        #gameContainer {
+            position: relative;
+            width: 800px;
+            height: 600px;
+        }
 
-    #menuButton {
-      top: 20px;
-      left: 20px;
-    }
+        #gameArea {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+        }
 
-    #hintButton {
-      bottom: 20px;
-      right: 20px;
-    }
+        #player {
+            position: absolute;
+            font-size: 20px;
+            user-select: none;
+            cursor: grab;
+            z-index: 10;
+        }
 
-    #container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 1100px;
-      height: 600px;
-      padding: 20px;
-      background-color: #fff;
-      text-align: center;
-    }
+        #player:active {
+            cursor: grabbing;
+        }
 
-    img {
-      max-width: 200px;
-      margin: 20px 0;
-    }
+        .wall {
+            position: absolute;
+            background-color: #333;
+        }
 
-    h1 {
-      font-size: 36px;
-      color: #333;
-    }
+        .coin {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
 
-    h2 {
-      font-size: 28px;
-      color: #333;
-    }
+        #score {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            font-size: 20px;
+        }
 
-    p {
-      font-size: 20px;
-      color: #333;
-    }
+        #messagemsucesso,
+        #messagemfracasso {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            z-index: 10;
+        }
 
-    .button {
-      display: inline-block;
-      font-size: 18px;
-      margin: 10px 5px;
-      padding: 15px 30px;
-      background-color: #00BFFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
+        #messagemsucesso button,
+        #messagemfracasso button {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #87d9ff;
+            color: #fff;
+        }
 
-    .button:hover {
-      background-color: #007ACC;
-    }
+        #messagemfracasso button {
+            background-color: #87d9ff;
+        }
 
-    .hidden {
-      display: none;
-    }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
 
-    /* Estilos para o modal */
-    #modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 20;
-    }
+        #modalContent {
+            width: 300px;
+            padding: 25px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(163, 238, 248, 0.3);
+        }
 
-    #modalContent {
-      width: 300px;
-      padding: 25px;
-      background-color: rgba(255, 255, 255, 0.7);
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0px 4px 10px rgba(163, 238, 248, 0.3);
-    }
+        #modalTitle {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #3498db;
+        }
 
-    #modalTitle {
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #3498db;
-    }
+        #modalContent button {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-    #modalContent button {
-      width: 100%;
-      padding: 12px;
-      margin: 15px 0;
-      font-size: 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+        #btnContinue {
+            background-color: #2ecc71;
+            color: #fff;
+        }
 
-    #btnContinue {
-      background-color: #2ecc71;
-      color: #fff;
-    }
+        #btnReload {
+            background-color: #3498db;
+            color: #fff;
+        }
 
-    #btnReload {
-      background-color: #3498db;
-      color: #fff;
-    }
+        #btnExit {
+            background-color: #e74c3c;
+            color: #fff;
+        }
 
-    #btnExit {
-      background-color: #e74c3c;
-      color: #fff;
-    }
+        /* Estilos de acessibilidade */
+        #fontSizeControls {
+            display: flex;
+            justify-content: center;
+            margin: 2px 0;
+        }
 
-    /* Estilos de acessibilidade */
-    #fontSizeControls {
-      display: flex;
-      justify-content: center;
-      margin: 2px 0;
-    }
+        #fontSizeControls button {
+            font-size: 18px;
+            cursor: pointer;
+        }
 
-    #fontSizeControls button {
-      font-size: 18px;
-      cursor: pointer;
-    }
+        #fontSizeControls button#btnDecreaseFont {
+            margin-right: 10px;
+            /* Adiciona espaço entre os botões */
+        }
 
-    #fontSizeControls button#btnDecreaseFont {
-      margin-right: 10px; /* Adiciona espaço entre os botões */
-    }
+        .high-contrast {
+            background-color: #000;
+            color: #fff;
+        }
 
-    .high-contrast {
-      background-color: #000;
-      color: #fff;
-    }
+        .high-contrast #gameArea {
+            background-color: #000;
+        }
 
-    .high-contrast #container {
-      background-color: #333;
-      border-color: #fff;
-      color: #fff;
-    }
+        .high-contrast .wall {
+            background-color: #fff;
+        }
 
-    .high-contrast .button {
-      background-color: #fff;
-      color: #000;
-    }
+        .high-contrast #score,
+        .high-contrast #modalContent,
+        .high-contrast #messagemsucesso,
+        .high-contrast #messagemfracasso {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
 
-    .high-contrast h1, .high-contrast h2, .high-contrast p {
-      color: #fff;
-    }
-  </style>
+        .high-contrast #modalContent button,
+        .high-contrast #messagemsucesso button,
+        .high-contrast #messagemfracasso button {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .high-contrast #messagemfracasso button {
+            background-color: #3498db;
+        }
+
+        #menuButton,
+        #hintButton {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0px 2px 5px rgba(80, 196, 235, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 24px;
+            color: rgba(80, 196, 235, 0.6);
+        }
+
+        #menuButton {
+            top: 20px;
+            left: 20px;
+        }
+
+        #hintButton {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        /* Estilos para a imagem de fundo */
+        #backgroundImage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: none;
+            z-index: 5;
+            /* z-index menor para não cobrir outros elementos */
+        }
+    </style>
 </head>
+
 <body>
+    <div id="menuButton">&#9776;</div>
+    <div id="hintButton">&#128161;</div>
 
-<div id="menuButton">&#9776;</div>
-<div id="hintButton">&#128161;</div>
-
-<div id="container">
-  <h1 id="title">Quiz Sobre Alimentos</h1>
-  <button id="startButton" class="button">Começar Jogo</button>
-
-  <div id="quizContainer" class="hidden">
-    <img id="questionImage" src="" alt="Imagem da Pergunta">
-    <h2 id="questionText"></h2>
-    <button id="option1" class="button">Opção 1</button>
-    <button id="option2" class="button">Opção 2</button>
-    <button id="option3" class="button">Opção 3</button>
-    <p id="feedbackMessage" class="hidden"></p>
-    <button id="nextPhaseButton" class="button hidden">Próxima Fase</button>
-    <button id="retryButton" class="button hidden">Tentar Novamente</button>
-  </div>
-
-  <div id="endContainer" class="hidden">
-    <h2>Parabéns! Você Concluiu o jogo!</h2>
-    <button class="button" onclick="SalvarJogo()">Salvar Progresso</button>
-    <a href="../jogos.html">   <button class="button">Retornar para a página de jogos</button></a>
-  </div>
-</div>
-
-<!-- Modal de opções -->
-<div id="modal">
-  <div id="modalContent">
-    <div id="modalTitle">Quiz Sobre Alimentos</div>
-
-    <button id="btnContinue">Continuar</button>
-    <button id="btnReload">Recarregar</button>
-    <a href="../jogos.html">   <button id="btnExit">Sair do Jogo</button></a>
-    <p></p>
-    <div id="fontSizeControls">
-      <button id="btnDecreaseFont">A-</button>
-      <button id="btnIncreaseFont">A+</button>
+    <div id="modal">
+        <div id="modalContent">
+            <div id="modalTitle">Labirinto - Macaco e Bananas</div>
+            <button id="btnContinue">Continuar</button>
+            <button id="btnReload">Recarregar</button>
+            <a href="..//jogos.html">
+                <button id="btnExit">Sair do Jogo</button>
+            </a>
+            <p></p>
+            <div id="fontSizeControls">
+                <button id="btnDecreaseFont">A-</button>
+                <button id="btnIncreaseFont">A+</button>
+            </div>
+            <button id="btnHighContrast">Ativar Alto Contraste</button>
+        </div>
     </div>
-    <button id="btnHighContrast">Ativar Alto Contraste</button>
-  </div>
-</div>
+    <div id="gameContainer">
+        <div id="gameArea">
+            <div id="player">🐝</div>
+            <div id="score">Pontos: 0</div>
+            <div id="messagemsucesso">
+                <h1>Parabéns, você acabou o jogo! Continue praticando!</h1>
+                <button id="jogardenovoganhou">
+                    Jogar de novo
+                </button>
+                <a href="..//jogos.html">
+                    <button>
+                        Voltar para jogos
+                    </button>
+                </a>
+            </div>
+            <div id="messagemfracasso">
+                <h1>Você está quase lá! Vamos tentar novamente na próxima!</h1>
+                <button id="jogardenovoperdeu">
+                    Jogar de novo
+                </button>
+                <a href="..//jogos.html">
+                    <button>
+                        Voltar para jogos
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="backgroundImage"></div>
 
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js';
-  import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js';
-  import {
-    getAuth,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    GoogleAuthProvider,
-    signInWithPopup,
-    updateProfile
-  } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
-  import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
+    <script type="module">
+        // Função para salvar dados do usuário no Firestore
+        async function saveUserData(userId, userData) {
+            try {
+                // Verificar se temos um userId válido
+                if (!userId) {
+                    throw new Error("UserId não fornecido");
+                }
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBVJIKGivD0wnr4FxAMB-kz8oCNtcLmtYs",
-    authDomain: "autos-34b01.firebaseapp.com",
-    projectId: "autos-34b01",
-    storageBucket: "autos-34b01.appspot.com",
-    messagingSenderId: "903227924701",
-    appId: "1:903227924701:web:90d4301331b1259765bb34",
-    measurementId: "G-PY6L785E86"
-  };
+                // Verificar se a coleção existe, se não, ela será criada automaticamente
+                const userRef = doc(db, "users", userId);
 
-  // Iniciando as configurações
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const provider = new GoogleAuthProvider();
+                // Adicionar timestamp do servidor
+                const dataWithTimestamp = {
+                    ...userData,
+                    updatedAt: new Date().toISOString()
+                };
 
-  let usuario;
+                // Tentar salvar os dados
+                await setDoc(userRef, dataWithTimestamp);
 
-  const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      usuario = user;
-      const uid = user.uid;
-      // ...
-    } else {
-      // User is signed out
-      // ...
-    }
-  });
+                console.log("Dados salvos no Firestore com sucesso!");
+                console.log("Dados salvos:", dataWithTimestamp);
 
-  const phases = [
-    {
-      question: "Qual fruta é essa?",
-      options: ["Abacaxi", "Maçã", "Banana"],
-      correctAnswer: 0, // Aqui é a resposta correta que deve ser representada na ilustração que irá aparecer (de 0 a 2)
-      imageSrc: "./img/"
-    },
-    {
-      question: "O que é isso?",
-      options: ["Brinquedo", "Cenoura", "Tomate"],
-      correctAnswer: 1,
-      imageSrc: "data:image/png;base64,..."
-    },
-    {
-      question: "O que é isso?",
-      options: ["Doce", "Carne", "Fruta"],
-      correctAnswer: 2,
-      imageSrc: "data:image/png;base64,..."
-    }
-  ];
+                // Redirecionar após sucesso
+                window.location.href = "../public/login.html";
 
-  let currentPhase = 0;
+            } catch (error) {
+                console.error("Erro detalhado ao salvar no Firestore:", error);
+            }
+        }
 
-  const startButton = document.getElementById("startButton");
-  const quizContainer = document.getElementById("quizContainer");
-  const questionImage = document.getElementById("questionImage");
-  const questionText = document.getElementById("questionText");
-  const feedbackMessage = document.getElementById("feedbackMessage");
-  const nextPhaseButton = document.getElementById("nextPhaseButton");
-  const retryButton = document.getElementById("retryButton");
-  const endContainer = document.getElementById("endContainer");
-  const optionButtons = [document.getElementById("option1"), document.getElementById("option2"), document.getElementById("option3")];
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js'
+        import {
+            getAuth,
+            onAuthStateChanged,
+            createUserWithEmailAndPassword,
+            GoogleAuthProvider,
+            signInWithPopup,
+            updateProfile
+        } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
+        import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
 
-  const menuButton = document.getElementById('menuButton');
-  const hintButton = document.getElementById('hintButton');
-  const modal = document.getElementById('modal');
-  const btnExit = document.getElementById('btnExit');
-  const btnReload = document.getElementById('btnReload');
-  const btnContinue = document.getElementById('btnContinue');
-  const btnIncreaseFont = document.getElementById('btnIncreaseFont');
-  const btnDecreaseFont = document.getElementById('btnDecreaseFont');
-  const btnHighContrast = document.getElementById('btnHighContrast');
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVJIKGivD0wnr4FxAMB-kz8oCNtcLmtYs",
+            authDomain: "autos-34b01.firebaseapp.com",
+            projectId: "autos-34b01",
+            storageBucket: "autos-34b01.appspot.com",
+            messagingSenderId: "903227924701",
+            appId: "1:903227924701:web:90d4301331b1259765bb34",
+            measurementId: "G-PY6L785E86"
+        };
 
-  let fontSize = 24;
-  let isHighContrast = false;
+        // Iniciando as configurações
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
 
-  startButton.addEventListener("click", startGame);
+        let usuario;
 
-  function startGame() {
-    startButton.classList.add("hidden");
-    quizContainer.classList.remove("hidden");
-    loadPhase();
-  }
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                usuario = user;
+                const uid = user.uid;
+                // ...
+            } else {
+                // User is signed out
+                // ...
+            }
+        });
 
-  function loadPhase() {
-    const phase = phases[currentPhase];
-    questionImage.src = phase.imageSrc;
-    questionText.textContent = phase.question;
+        const player = document.getElementById('player');
+        const gameArea = document.getElementById('gameArea');
+        const scoreDisplay = document.getElementById('score');
+        const jogardenovoganhou = document.getElementById('jogardenovoganhou');
+        const jogardenovoperdeu = document.getElementById('jogardenovoperdeu')
+        const messageDisplaysucesso = document.getElementById('messagemsucesso');
+        const messageDisplayfracasso = document.getElementById('messagemfracasso');
+        const backgroundImage = document.getElementById('backgroundImage');
+        let score = 0;
 
-    optionButtons.forEach((button, index) => {
-      button.textContent = phase.options[index];
-      button.disabled = false;
-      button.classList.remove("hidden");
-      button.style.borderColor = 'transparent'; // Remover contorno ao carregar a fase
-      button.onclick = () => checkAnswer(index); // Adicionar evento de clique
-    });
+        // Posição inicial do jogador
+        let startX = 100;
+        let startY = 100;
+        let playerX = startX;
+        let playerY = startY;
 
-    feedbackMessage.classList.add("hidden");
-    nextPhaseButton.classList.add("hidden");
-    retryButton.classList.add("hidden");
-  }
+        // Estado do jogo e controle de arrastar
+        let gameState = 'playing';
+        let isDragging = false;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+        let hintActive = false;
 
-  function checkAnswer(selectedOption) {
-    const phase = phases[currentPhase];
-    if (selectedOption === phase.correctAnswer) {
-      feedbackMessage.textContent = "Parabéns! Você acertou!";
-      feedbackMessage.classList.remove("hidden");
-      nextPhaseButton.classList.remove("hidden");
-      optionButtons.forEach(button => button.disabled = true);
-    } else {
-      feedbackMessage.textContent = "Você está quase conseguindo! Tente Novamente.";
-      feedbackMessage.classList.remove("hidden");
-      retryButton.classList.remove("hidden");
-      optionButtons.forEach(button => button.disabled = true);
-    }
-  }
+        function SalvarJogo() {
+            const userRef = doc(db, "users", usuario.uid);
+            setDoc(userRef, {
+                mouse1: true,
+            }, { merge: true });
+            console.log("oi");
+            console.log(usuario);
+        }
 
-  function restartPhase() {
-    feedbackMessage.classList.add("hidden");
-    retryButton.classList.add("hidden");
-    loadPhase();
-  }
+        player.style.left = `${playerX}px`;
+        player.style.top = `${playerY}px`;
 
-  function nextPhase() {
-    currentPhase++;
-    if (currentPhase < phases.length) {
-      loadPhase();
-    } else {
-      endGame();
-    }
-  }
+        // Criação do labirinto (paredes)
+        function createWall(x, y, width, height) {
+            const wall = document.createElement('div');
+            wall.className = 'wall';
+            wall.style.left = `${x}px`;
+            wall.style.top = `${y}px`;
+            wall.style.width = `${width}px`;
+            wall.style.height = `${height}px`;
+            gameArea.appendChild(wall);
+        }
 
-  function endGame() {
-    quizContainer.classList.add("hidden");
-    endContainer.classList.remove("hidden");
-  }
+        function createMaze() {
+            createWall(0, 0, 800, 20);
+            createWall(0, 580, 800, 20);
+            createWall(200, 100, 300, 20);
+            createWall(200, 300, 300, 20);
+            createWall(0, 400, 620, 20);
+            createWall(400, 490, 200, 20);
+            createWall(0, 0, 20, 600);
+            createWall(780, 0, 20, 600);
+            createWall(200, 0, 20, 300);
+            createWall(600, 100, 20, 300);
+        }
 
-  // Funções do Modal
-  menuButton.addEventListener('click', () => {
-    modal.style.display = 'flex';
-  });
+        function createCoins() {
+            createCoin(50, 50, '🌸');
+            createCoin(700, 50, '🌼');
+            createCoin(400, 150, '🌸');
+            createCoin(50, 500, '🏵️');
+            createCoin(700, 500, '🌼');
+        }
 
-  modal.addEventListener('click', (event) => {
-    if (event.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
+        function createCoin(x, y, character) {
+            const coin = document.createElement('div');
+            coin.className = 'coin';
+            coin.style.left = `${x}px`;
+            coin.style.top = `${y}px`;
+            coin.textContent = character;
+            gameArea.appendChild(coin);
+        }
 
-  btnExit.addEventListener('click', () => {
-    window.location.href = 'pagina_inicial.html';
-  });
+        // Iniciar arrastar o jogador
+        function startDrag(e) {
+            if (gameState !== 'playing') return;
+            isDragging = true;
+            dragOffsetX = e.clientX - player.offsetLeft;
+            dragOffsetY = e.clientY - player.offsetTop;
+            player.style.cursor = 'grabbing';
+        }
 
-  btnReload.addEventListener('click', () => {
-    window.location.reload();
-    modal.style.display = 'none';
-  });
+        // Parar de arrastar o jogador
+        function stopDrag() {
+            isDragging = false;
+            player.style.cursor = 'grab';
+        }
 
-  btnContinue.addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
+        // Movimentação do jogador
+        function drag(e) {
+            if (!isDragging || gameState !== 'playing') return;
 
-  btnIncreaseFont.addEventListener('click', () => {
-    fontSize += 2;
-    document.querySelectorAll('#container *').forEach(element => {
-      element.style.fontSize = fontSize + 'px';
-    });
-  });
+            // Cálculo da nova posição do jogador baseado no mouse
+            const newX = e.clientX - dragOffsetX;
+            const newY = e.clientY - dragOffsetY;
 
-  btnDecreaseFont.addEventListener('click', () => {
-    fontSize = Math.max(fontSize - 2, 12); // Para não diminuir abaixo de 12px
-    document.querySelectorAll('#container *').forEach(element => {
-      element.style.fontSize = fontSize + 'px';
-    });
-  });
+            // Garantir que o jogador não ultrapasse os limites da área de jogo
+            if (newX >= 0 && newX <= gameArea.clientWidth - 20 && newY >= 0 && newY <= gameArea.clientHeight - 20) {
+                // Verificar colisão antes de mover o jogador
+                if (!checkWallCollision(newX, newY)) {
+                    playerX = newX;
+                    playerY = newY;
+                    player.style.left = `${playerX}px`;
+                    player.style.top = `${playerY}px`;
+                    checkCoinCollision();
+                }
+            }
+        }
 
-  btnHighContrast.addEventListener('click', () => {
-    isHighContrast = !isHighContrast;
-    if (isHighContrast) {
-      document.body.classList.add('high-contrast');
-      btnHighContrast.textContent = 'Desativar Alto Contraste';
-    } else {
-      document.body.classList.remove('high-contrast');
-      btnHighContrast.textContent = 'Ativar Alto Contraste';
-    }
-  });
+        // Verificar colisão com paredes
+        function checkWallCollision(x, y) {
+            if (hintActive) return false;
 
-  function restartGame() {
-    currentPhase = 0;
-    loadPhase();
-    quizContainer.classList.remove("hidden");
-    endContainer.classList.add("hidden");
-  }
+            const playerRect = {
+                left: x,
+                top: y,
+                right: x + 20,
+                bottom: y + 20
+            };
 
-  // Função para destacar a opção correta
-  hintButton.addEventListener('click', showHint);
+            const walls = document.querySelectorAll('.wall');
+            for (const wall of walls) {
+                const wallRect = wall.getBoundingClientRect();
+                const wallOffsetLeft = wall.offsetLeft;
+                const wallOffsetTop = wall.offsetTop;
+                const wallWidth = wall.offsetWidth;
+                const wallHeight = wall.offsetHeight;
 
-  function showHint() {
-    const phase = phases[currentPhase];
-    const correctButton = optionButtons[phase.correctAnswer];
-    correctButton.style.borderColor = '#0056b3'; // Azul mais escuro
-    correctButton.style.borderWidth = '2px'; // Adiciona uma borda visível
-    correctButton.style.borderStyle = 'solid'; // Define o estilo da borda
-    setTimeout(() => {
-      correctButton.style.borderColor = 'transparent';
-      correctButton.style.borderWidth = '0'; // Remove a borda
-    }, 3000);
-  }
+                // Verifica a colisão com base nas posições calculadas manualmente
+                if (
+                    playerRect.left < wallOffsetLeft + wallWidth &&
+                    playerRect.right > wallOffsetLeft &&
+                    playerRect.top < wallOffsetTop + wallHeight &&
+                    playerRect.bottom > wallOffsetTop
+                ) {
+                    loseGame();
+                    return true;
+                }
+            }
+            return false;
+        }
 
-  // Função para salvar dados do usuário no Firestore
-  async function saveUserData(userId, userData) {
-    try {
-      // Verificar se temos um userId válido
-      if (!userId) {
-        throw new Error("UserId não fornecido");
-      }
+        // Verificar colisão com moedas
+        function checkCoinCollision() {
+            const playerRect = player.getBoundingClientRect();
+            const coins = document.querySelectorAll('.coin');
+            coins.forEach(coin => {
+                const coinRect = coin.getBoundingClientRect();
+                if (
+                    playerRect.left < coinRect.right &&
+                    playerRect.right > coinRect.left &&
+                    playerRect.top < coinRect.bottom &&
+                    playerRect.bottom > coinRect.top
+                ) {
+                    coin.remove();
+                    score++;
+                    scoreDisplay.textContent = `Pontos: ${score}`;
+                    if (score === 5) {
+                        winGame();
+                    }
+                }
+            });
+        }
 
-      // Verificar se a coleção existe, se não, ela será criada automaticamente
-      const userRef = doc(db, "users", userId);
+        // Perder o jogo
+        function loseGame() {
+            if (hintActive) return;
+            gameState = 'lost';
+            player.style.cursor = 'default';
+            messageDisplayfracasso.style.display = 'block';
+        }
 
-      // Adicionar timestamp do servidor
-      const dataWithTimestamp = {
-        ...userData,
-        updatedAt: new Date().toISOString()
-      };
+        // Ganhar o jogo
+        function winGame() {
+            gameState = 'won';
+            player.style.cursor = 'default';
+            messageDisplaysucesso.style.display = 'block';
+            SalvarJogo();
+            backgroundImage.style.backgroundImage = 'url("https://i.pinimg.com/originals/1e/bd/62/1ebd62592ece9c36f32347098a8ddb21.gif")';
+            backgroundImage.style.display = 'block'; // Exibe a imagem de fundo
+        }
 
-      // Tentar salvar os dados
-      await setDoc(userRef, dataWithTimestamp);
+        // Reiniciar o jogo
+        function restartGame() {
+            gameState = 'playing';
+            player.style.cursor = 'grab';
+            messageDisplaysucesso.style.display = 'none';
+            messageDisplayfracasso.style.display = 'none';
+            score = 0;
+            scoreDisplay.textContent = `Pontos: ${score}`;
+            playerX = startX;
+            playerY = startY;
+            player.style.left = `${playerX}px`;
+            player.style.top = `${playerY}px`;
 
-      console.log("Dados salvos no Firestore com sucesso!");
-      console.log("Dados salvos:", dataWithTimestamp);
+            // Remover moedas existentes e recriar novas
+            document.querySelectorAll('.coin').forEach(coin => coin.remove());
+            createCoins();
+            backgroundImage.style.display = 'none'; // Oculta a imagem de fundo
+        }
 
-      // Redirecionar após sucesso
-      window.location.href = "../public/login.html";
+        jogardenovoperdeu.addEventListener('click', restartGame);
+        jogardenovoganhou.addEventListener('click', restartGame);
+        player.addEventListener('mousedown', startDrag);
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('mousemove', drag);
 
-    } catch (error) {
-      console.error("Erro detalhado ao salvar no Firestore:", error);
-    }
-  }
+        createMaze();
+        createCoins();
 
-  // Função para salvar o jogo
-  function SalvarJogo() {
-    const userId = usuario.uid;
-    const userData = {
-      quiz1: true,
-    };
-    saveUserData(userId, userData);
-  }
-</script>
+        // Funções do Modal
+        const menuButton = document.getElementById('menuButton');
+        const hintButton = document.getElementById('hintButton');
+        const modal = document.getElementById('modal');
+        const btnExit = document.getElementById('btnExit');
+        const btnReload = document.getElementById('btnReload');
+        const btnContinue = document.getElementById('btnContinue');
+        const btnIncreaseFont = document.getElementById('btnIncreaseFont');
+        const btnDecreaseFont = document.getElementById('btnDecreaseFont');
+        const btnHighContrast = document.getElementById('btnHighContrast');
 
+        let fontSize = 16;
+        let isHighContrast = false;
+
+        menuButton.addEventListener('click', () => {
+            modal.style.display = 'flex';
+            gameContainer.classList.add('blur');
+        });
+
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                gameContainer.classList.remove('blur');
+            }
+        });
+
+        btnExit.addEventListener('click', () => {
+            window.location.href = 'pagina_inicial.html';
+        });
+
+        btnReload.addEventListener('click', () => {
+            restartGame();
+            modal.style.display = 'none';
+            gameContainer.classList.remove('blur');
+        });
+
+        btnContinue.addEventListener('click', () => {
+            modal.style.display = 'none';
+            gameContainer.classList.remove('blur');
+        });
+
+        btnIncreaseFont.addEventListener('click', () => {
+            fontSize += 2;
+            document.body.style.fontSize = fontSize + 'px';
+            scoreDisplay.style.fontSize = fontSize + 'px';
+            btnContinue.style.fontSize = fontSize + 'px';
+            btnReload.style.fontSize = fontSize + 'px';
+            btnExit.style.fontSize = fontSize + 'px';
+        });
+
+        btnDecreaseFont.addEventListener('click', () => {
+            fontSize = Math.max(fontSize - 2, 12); // Para não diminuir abaixo de 12px
+            document.body.style.fontSize = fontSize + 'px';
+            scoreDisplay.style.fontSize = fontSize + 'px';
+            btnContinue.style.fontSize = fontSize + 'px';
+            btnReload.style.fontSize = fontSize + 'px';
+            btnExit.style.fontSize = fontSize + 'px';
+        });
+
+        btnHighContrast.addEventListener('click', () => {
+            isHighContrast = !isHighContrast;
+            if (isHighContrast) {
+                document.body.classList.add('high-contrast');
+                btnHighContrast.textContent = 'Desativar Alto Contraste';
+            } else {
+                document.body.classList.remove('high-contrast');
+                btnHighContrast.textContent = 'Ativar Alto Contraste';
+            }
+        });
+
+        hintButton.addEventListener('click', () => {
+            showHint();
+        });
+
+        function showHint() {
+            hintActive = true;
+            const walls = document.querySelectorAll('.wall');
+            walls.forEach(wall => {
+                wall.style.backgroundColor = 'rgba(173, 216, 230, 0.5)'; // Azul claro com baixa opacidade
+            });
+
+            let timer = 5;
+            const timerDisplay = document.createElement('div');
+            timerDisplay.style.position = 'absolute';
+            timerDisplay.style.top = '25px';
+            timerDisplay.style.left = '150px';
+            timerDisplay.style.fontSize = '20px';
+            timerDisplay.textContent = `Tempo: ${timer}s`;
+            gameArea.appendChild(timerDisplay);
+
+            const interval = setInterval(() => {
+                timer--;
+                timerDisplay.textContent = `Tempo: ${timer}s`;
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    hintActive = false;
+                    walls.forEach(wall => {
+                        wall.style.backgroundColor = '#333'; // Restaura a cor original
+                    });
+                    timerDisplay.remove();
+                }
+            }, 1000);
+        }
+
+        createCards();
+    </script>
 </body>
+
 </html>

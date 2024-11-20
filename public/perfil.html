@@ -343,13 +343,12 @@
             <div id="alertMessage" class="mt-4 p-4 rounded-lg hidden max-w-md mx-auto"></div>
         </div>
     </div>
-
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js';
         import { getAuth, updatePassword, updateEmail, signOut, EmailAuthProvider, reauthenticateWithCredential } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
         import { getFirestore, doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
         import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js';
-
+    
         const firebaseConfig = {
             apiKey: "AIzaSyBVJIKGivD0wnr4FxAMB-kz8oCNtcLmtYs",
             authDomain: "autos-34b01.firebaseapp.com",
@@ -359,13 +358,13 @@
             appId: "1:903227924701:web:90d4301331b1259765bb34",
             measurementId: "G-PY6L785E86"
         };
-
+    
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const db = getFirestore();
         const storage = getStorage();
-
+    
         // Show alert message
         function showAlert(message, isError = false) {
             const alertMessage = document.getElementById('alertMessage');
@@ -376,7 +375,7 @@
                 alertMessage.classList.add('hidden');
             }, 3000);
         }
-
+    
         // Elements
         const fullNameInput = document.getElementById('fullName');
         const saveButton = document.getElementById('saveButton');
@@ -387,27 +386,27 @@
         const userEmail = document.getElementById('userEmail');
         const saveEmailButton = document.getElementById('saveEmailButton');
         const savePasswordButton = document.getElementById('savePasswordButton');
-
+    
         // Update email
         saveEmailButton.addEventListener('click', async () => {
             const newEmail = document.getElementById('newEmail').value;
             const currentPassword = document.getElementById('currentPasswordEmail').value;
-
+    
             try {
                 const user = auth.currentUser;
                 const credential = EmailAuthProvider.credential(user.email, currentPassword);
-
+    
                 // Reauthenticate user
                 await reauthenticateWithCredential(user, credential);
-
+    
                 // Update email in Authentication
                 await updateEmail(user, newEmail);
-
+    
                 // Update email in Firestore
                 await updateDoc(doc(db, 'users', user.uid), {
                     email: newEmail
                 });
-
+    
                 document.getElementById('userEmail').textContent = newEmail;
                 showAlert('Email atualizado com sucesso!');
                 closeEmailModal();
@@ -415,35 +414,35 @@
                 showAlert(error.message, true);
             }
         });
-
+    
         // Update password
         savePasswordButton.addEventListener('click', async () => {
             const currentPassword = document.getElementById('currentPassword').value;
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-
+    
             if (newPassword !== confirmPassword) {
                 showAlert('As senhas não coincidem', true);
                 return;
             }
-
+    
             try {
                 const user = auth.currentUser;
                 const credential = EmailAuthProvider.credential(user.email, currentPassword);
-
+    
                 // Reauthenticate user
                 await reauthenticateWithCredential(user, credential);
-
+    
                 // Update password
                 await updatePassword(user, newPassword);
-
+    
                 showAlert('Senha atualizada com sucesso!');
                 closePasswordModal();
             } catch (error) {
                 showAlert(error.message, true);
             }
         });
-
+    
         // Check if user is logged in
         auth.onAuthStateChanged(async (user) => {
             if (user) {
@@ -463,7 +462,7 @@
                 window.location.href = '/login.html';
             }
         });
-
+    
         // Handle profile photo upload
         photoInput.addEventListener('change', async (e) => {
             const file = e.target.files[0];
@@ -473,12 +472,12 @@
                     const storageRef = ref(storage, `profile-photos/${user.uid}`);
                     await uploadBytes(storageRef, file);
                     const photoURL = await getDownloadURL(storageRef);
-
+    
                     // Update profile photo URL in Firestore
                     await updateDoc(doc(db, 'users', user.uid), {
                         photoURL: photoURL
                     });
-
+    
                     profileImage.src = photoURL;
                     showAlert('Foto de perfil atualizada com sucesso!');
                 } catch (error) {
@@ -486,24 +485,24 @@
                 }
             }
         });
-
+    
         // Save changes
         saveButton.addEventListener('click', async () => {
             try {
                 const user = auth.currentUser;
-
+    
                 // Update user data in Firestore
                 await updateDoc(doc(db, 'users', user.uid), {
                     fullName: fullNameInput.value,
                 });
-
+    
                 showAlert('Perfil atualizado com sucesso!');
                 displayName.textContent = fullNameInput.value;
             } catch (error) {
                 showAlert(error.message, true);
             }
         });
-
+    
         // Logout
         logoutButton.addEventListener('click', async () => {
             try {
@@ -513,22 +512,23 @@
                 showAlert('Erro ao fazer logout', true);
             }
         });
-
+    
         // Funções de acessibilidade
         document.getElementById('high-contrast').addEventListener('click', function () {
             document.body.classList.toggle('high-contrast');
         });
-
+    
         document.getElementById('decrease-font').addEventListener('click', function () {
             let currentFontSize = parseFloat(window.getComputedStyle(document.body, null).getPropertyValue('font-size'));
             document.body.style.fontSize = (currentFontSize - 2) + 'px';
         });
-
+    
         document.getElementById('increase-font').addEventListener('click', function () {
             let currentFontSize = parseFloat(window.getComputedStyle(document.body, null).getPropertyValue('font-size'));
             document.body.style.fontSize = (currentFontSize + 2) + 'px';
         });
     </script>
+    
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
