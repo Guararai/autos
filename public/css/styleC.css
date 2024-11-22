@@ -130,7 +130,6 @@ body {
     color: var(--text-dark);
     margin-bottom: 2rem;
     line-height: 1.6;
-    text-align: center;
     
 }
 
@@ -144,6 +143,16 @@ body {
     padding-right: 17%;
     max-width: 100%;
     text-align: center;
+}
+
+.description-contato {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    max-width: 100%;
+    text-align: center;
+
 }
 
 .cta-button {
@@ -171,14 +180,37 @@ body {
 }
 
 /* Content Container */
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+    gap: 60px;
+}
+.image-container img {
+    width: 200px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
+    margin-right: 20px;
+}
 .content-container {
     width: 100%;
     margin: 50px auto;
     background-color: white;
     padding: 40px;
     
+    
 
 }
+
+.beneficios {
+    display: block;
+    margin: 0 auto; /* Centraliza a imagem horizontalmente */
+    max-width: 100%;
+    height: auto
+
+}
+
+
 
 .content-container h2 {
     text-align: center;
@@ -204,15 +236,16 @@ body {
 }
 
 .content img {
-    width: 00px;
+    width: 400px;
+    height: 550px;
     margin-right: 30px;
     border: 2px solid rgba(0, 0, 0, 0.2);
-    padding: 3%;
+    padding: 10px;
 }
 
 
 .content p {
-    font-size: 16px;
+    font-size: 21px;
     line-height: 1.6;
     color: #333;
     max-width: 600px;
@@ -618,6 +651,8 @@ nav a, .login-btn {
     font-size: 1em;
 }
 
+
+
 /* Seção AUTOS: jogos */
 .autos-jogos-info {
     text-align: center;
@@ -695,6 +730,61 @@ nav a, .login-btn {
 .temas ul li {
     margin-bottom: 5px;
     font-size: 0.9em;
+}
+
+.lista-temas {
+    display: inline-block;
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    padding-top: 2%;
+    padding-left: 17%;
+    max-width: 100%;
+    text-align: center;
+/
+    
+}
+.lista-temas li {
+    margin-bottom: 10px;
+}
+
+/* modo jogo */
+.modojogo {
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+    background-color: #fff4dd;
+    margin-top: 20px;
+    margin-bottom: 100px;
+    padding-left:px;
+    box-sizing: border-box;
+}
+.modojogo h2 {
+    color: #333;
+    margin: 0;
+    font-size: 1.5em;
+    padding-top: 2%;
+    padding-left: 17%;
+    padding-right: 17%;
+}
+.modojogo-content {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 2%;
+    padding-left: 17%;
+    padding-right: 17%;
+}
+.modojogo p {
+    margin: 10px 20px 0 0;
+    font-size: 1.3em;
+    line-height: 1.5;
+    flex: 1;
+}
+.modojogo img {
+    width: 500px;
+    height: auto;
+    margin-left: 20px;
 }
 
 /*sim*/
