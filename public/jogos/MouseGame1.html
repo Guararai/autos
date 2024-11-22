@@ -234,6 +234,22 @@
             z-index: 5;
             /* z-index menor para não cobrir outros elementos */
         }
+
+        /* Estilos para a mensagem do título */
+        #gameTitle {
+            position: absolute;
+            top: -50px; /* Ajuste conforme necessário */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 15;
+        }
     </style>
 </head>
 
@@ -258,6 +274,7 @@
         </div>
     </div>
     <div id="gameContainer">
+        <div id="gameTitle">Ajude a abelha a pegar as flores.</div>
         <div id="gameArea">
             <div id="player">🐝</div>
             <div id="score">Pontos: 0</div>
@@ -368,6 +385,7 @@
         const messageDisplaysucesso = document.getElementById('messagemsucesso');
         const messageDisplayfracasso = document.getElementById('messagemfracasso');
         const backgroundImage = document.getElementById('backgroundImage');
+        const gameTitle = document.getElementById('gameTitle');
         let score = 0;
 
         // Posição inicial do jogador
@@ -621,6 +639,7 @@
             btnContinue.style.fontSize = fontSize + 'px';
             btnReload.style.fontSize = fontSize + 'px';
             btnExit.style.fontSize = fontSize + 'px';
+            gameTitle.style.fontSize = fontSize + 4 + 'px'; // Ajuste do tamanho da fonte do título
         });
 
         btnDecreaseFont.addEventListener('click', () => {
@@ -630,6 +649,7 @@
             btnContinue.style.fontSize = fontSize + 'px';
             btnReload.style.fontSize = fontSize + 'px';
             btnExit.style.fontSize = fontSize + 'px';
+            gameTitle.style.fontSize = fontSize + 4 + 'px'; // Ajuste do tamanho da fonte do título
         });
 
         btnHighContrast.addEventListener('click', () => {
