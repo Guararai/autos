@@ -9,152 +9,168 @@
 
     <style>
         body {
-    font-family: Arial, sans-serif;
-    background-color: #50C4EB;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+            font-family: Arial, sans-serif;
+            background-color: #50C4EB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
+        .contact-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.9em;
+        }
 
-.contact-options {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.9em;
-}
+        .contact-option {
+            flex: 1;
+            text-align: center;
+            padding: 0.5em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-.contact-option {
-    flex: 1;
-    text-align: center;
-    padding: 0.5em;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        .contact-option.active {
+            background-color: #e6f3ff;
+            border-color: #0066cc;
+        }
 
-.contact-option.active {
-    background-color: #e6f3ff;
-    border-color: #0066cc;
-}
+        #email-input,
+        #phone-input {
+            display: none;
+        }
 
-#email-input,
-#phone-input {
-    display: none;
-}
+        .seta {
+            width: 6%;
+        }
 
-.seta {
-    width: 6%;
-}
+        .login-container {
+            background-color: white;
+            padding: 2em;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
 
-.login-container {
-    background-color: white;
-    padding: 2em;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-}
+        .logo {
+            text-align: center;
+            margin-bottom: 0.5em;
+            padding-left: 10%;
+        }
 
-.logo {
-    text-align: center;
-    margin-bottom: 0.5em;
-    padding-left: 10%;
-}
+        .logo-image {
+            width: 40px;
+            height: 40px;
+        }
 
-.logo-image {
-    width: 40px;
-    height: 40px;
-}
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 1em;
+            font-size: 1.5em;
+        }
 
-h1 {
-    text-align: center;
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 1em;
-    font-size: 1.5em;
-}
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 0.7em;
+            margin-bottom: 0.7em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
 
-input[type="email"],
-input[type="password"],
-input[type="text"] {
-    width: 100%;
-    padding: 0.7em;
-    margin-bottom: 0.7em;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5em;
+            font-size: 0.9em;
+        }
 
-.remember-me {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5em;
-    font-size: 0.9em;
-}
+        .remember-me input {
+            margin-right: 0.5em;
+        }
 
-.remember-me input {
-    margin-right: 0.5em;
-}
+        .forgot-password {
+            text-align: right;
+            font-size: 0.8em;
+            margin-bottom: 1em;
+        }
 
-.forgot-password {
-    text-align: right;
-    font-size: 0.8em;
-    margin-bottom: 1em;
-}
+        .criar-conta {
+            text-align: center;
+            font-size: 0.9em;
+            margin-bottom: 1em;
+            margin-top: 2em;
+        }
 
-.criar-conta {
-    text-align: center;
-    font-size: 0.9em;
-    margin-bottom: 1em;
-    margin-top: 2em;
-}
+        .login-button {
+            width: 100%;
+            padding: 0.7em;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
 
+        .login-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
 
-.login-button {
-    width: 100%;
-    padding: 0.7em;
-    background-color: #333;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9em;
-    text-transform: uppercase;
-}
+        .login-button:disabled:hover {
+            background-color: #ccc;
+        }
 
-.login-button:hover {
-    background-color: #555;
-}
+        .login-button:hover {
+            background-color: #555;
+        }
 
-.or-divider {
-    text-align: center;
-    margin: 1em 0;
-    color: #666;
-    font-size: 0.9em;
-}
+        .or-divider {
+            text-align: center;
+            margin: 1em 0;
+            color: #666;
+            font-size: 0.9em;
+        }
 
-.social-login {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7em;
-}
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7em;
+        }
 
-.social-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.7em;
-    border: 1px solid #ddd;
-    cursor: pointer;
-    font-size: 0.9em;
-    background-color: white;
-}
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.7em;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            font-size: 0.9em;
+            background-color: white;
+        }
 
-.social-button img {
-    width: 20px;
-    height: 20px;
-    margin-right: 0.5em;
-}
+        .social-button:disabled {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+        }
+
+        .social-button:disabled:hover {
+            background-color: #f0f0f0;
+        }
+
+        .social-button img {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5em;
+        }
     </style>
 </head>
 
@@ -170,27 +186,30 @@ input[type="text"] {
         </div>
         <h1>Login</h1>
         <form>
-            <div id="caixinha" class="caixinha">
-                
-            </div>
+            <div id="caixinha" class="caixinha"></div>
             <input id="email" type="email" placeholder="Email" required>
             <input id="password" type="password" placeholder="Senha" required>
+            <br>
+            <div class="remember-me">
+                <input type="checkbox" id="terms" name="terms">
+                <label for="terms">Li e estou de acordo com os <a href="termos.html" target="_blank">Termos de Uso</a> e <a href="privacidade.html" target="_blank">Política de Privacidade</a></label>
+            </div>
+            <br>
+            <br>
             <div class="forgot-password">
                 <a href="esqueci_a_senha.html">Esqueceu sua senha?</a>
             </div>
-            <button id="login" type="button" class="login-button">Entrar</button>
+            <button id="login" type="button" class="login-button" disabled>Entrar</button>
         </form>
         <div class="or-divider">ou use</div>
         <div class="social-login">
-            <button id="google" class="social-button">
+            <button id="google" class="social-button" disabled>
                 <img src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg" alt="Google logo">
                 Continuar com o Google
             </button>
-        
         </div>
         <div class="criar-conta">
-            <p>Não tem uma conta? <a href="criar_conta.html">Crie uma!</a>
-            <p>
+            <p>Não tem uma conta? <a href="criar_conta.html">Crie uma!</a></p>
         </div>
     </div>
     <!-- Insert this script at the bottom of the HTML, but before you use any Firebase services -->
@@ -204,8 +223,6 @@ input[type="text"] {
         import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
         import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
 
-
-
         const firebaseConfig = {
             apiKey: "AIzaSyBVJIKGivD0wnr4FxAMB-kz8oCNtcLmtYs",
             authDomain: "autos-34b01.firebaseapp.com",
@@ -217,13 +234,20 @@ input[type="text"] {
         };
         const app = initializeApp(firebaseConfig);
 
-        const google_button = document.getElementById('google')
-        google_button.onclick = function (e) {
+        const googleButton = document.getElementById('google');
+        const loginButton = document.getElementById('login');
+        const termsCheckbox = document.getElementById('terms');
+
+        termsCheckbox.addEventListener('change', function () {
+            loginButton.disabled = !this.checked;
+            googleButton.disabled = !this.checked;
+        });
+
+        googleButton.onclick = function (e) {
             const auth = getAuth();
             const provider = new GoogleAuthProvider();
             signInWithPopup(auth, provider)
                 .then((result) => {
-    
                     const credential = GoogleAuthProvider.credentialFromResult(result);
                     const token = credential.accessToken;
                     window.location = "diretrizes.html";
@@ -246,20 +270,15 @@ input[type="text"] {
                 });
         };
 
-        const button = document.getElementById('login')
-        button.onclick = function (e) {
-            console.log('oi');
-
+        loginButton.onclick = function (e) {
             const email = document.getElementById('email').value;
-            console.log(email.value);
             const password = document.getElementById('password').value;
-            console.log(password.value);
 
             const auth = getAuth();
 
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    // Signed in 
+                    // Signed in
                     const user = userCredential.user;
                     window.location = "diretrizes.html";
                     // ...
@@ -279,7 +298,6 @@ input[type="text"] {
                     console.error(error);
                 });
         }
-
     </script>
 </body>
 
