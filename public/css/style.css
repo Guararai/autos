@@ -688,7 +688,7 @@ wrapper {
 
 .footer-description {
  color: #ffffff;
- padding-top: 25%;
+ padding-top: 12%;
  line-height: 0.5;
  font-family: 'Karantina', sans-serif;
  margin-bottom: 0.1rem;
@@ -697,6 +697,7 @@ wrapper {
 
 .footer-description2 {
  color: #ffffff;
+ 
  line-height: 2;
  margin-bottom: 0.5rem;
  font-size: 180%;
@@ -731,7 +732,14 @@ wrapper {
 .social-icons {
  display: flex;
  gap: 1rem;
-}
+}    a {
+    text-decoration: none; /* Remove o sublinhado do link */
+    color: inherit; /* Mantém a cor do link igual à cor do texto ou do ícone */
+  }
+
+  a:hover {
+    color: inherit; /* Mantém a cor igual no hover */
+  }
 
 .social-icons a {
  color: #ffffff;
@@ -746,7 +754,7 @@ wrapper {
  text-align: center;
  padding-top: 2rem;
  margin-top: 2rem;
- border-top: 1px solid #c2c2c2;
+ border-top: 1px solid #ffffff;
  color: #ffffff;
 }
 
