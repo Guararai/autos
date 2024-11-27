@@ -109,9 +109,9 @@
         #restartButton,
         #backToGamesButton {
             position: absolute;
-        
-            width: 300px;
-            height: 50px;
+
+            width: 400px;
+            height: 60px;
             background-color: #3498db; /* Cor azul consistente */
             border: none;
             border-radius: 5px;
@@ -120,10 +120,10 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 28px;
             color: #fff; /* Cor do texto branco */
             z-index: 20; /* Garantir que os botões fiquem acima da gameArea */
-        
+
             left: 50%;
             transform: translate(-50%, -50%);
             margin-top: 20px; /* Ajuste conforme necessário */
@@ -244,6 +244,15 @@
             background-position: center;
             display: none;
             z-index: 5;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff0;
+            border-radius: 50%;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -423,6 +432,9 @@
             messageDisplay.style.display = 'block';
             messageDisplay.innerHTML = `<h1>Parabéns, você conseguiu: ${score} pontos.</h1><button id="restartButton">Jogar de Novo</button><button id="backToGamesButton">Voltar para página de jogos</button>`;
             resetPlayerPosition();
+            showConfetti();
+            backgroundImage.style.backgroundImage = 'url("https://i.pinimg.com/originals/1e/bd/62/1ebd62592ece9c36f32347098a8ddb21.gif")';
+            backgroundImage.style.display = 'block'; // Exibe a imagem de fundo
         }
 
         function restartGame() {
@@ -434,6 +446,7 @@
             scoreDisplay.textContent = `Pontos: ${score}`;
             removeAllObstacles();
             startGame();
+            backgroundImage.style.display = 'none'; // Oculta a imagem de fundo
         }
 
         function resetPlayerPosition() {
@@ -563,9 +576,9 @@
             let timer = 5;
             const timerDisplay = document.createElement('div');
             timerDisplay.style.position = 'absolute';
-            timerDisplay.style.top = '25px';
-            timerDisplay.style.left = '150px';
-            timerDisplay.style.fontSize = '20px';
+            timerDisplay.style.top = '30px';
+            timerDisplay.style.left = '250px';
+            timerDisplay.style.fontSize = '35px';
             timerDisplay.textContent = `Tempo: ${timer}s`;
             gameArea.appendChild(timerDisplay);
 
@@ -592,6 +605,30 @@
                 window.location.href = '../jogos.html';
             }
         });
+
+        function showConfetti() {
+            const confettiCount = 100;
+            const confettiContainer = document.createElement('div');
+            confettiContainer.style.position = 'absolute';
+            confettiContainer.style.top = '0';
+            confettiContainer.style.left = '0';
+            confettiContainer.style.width = '100%';
+            confettiContainer.style.height = '100%';
+            confettiContainer.style.pointerEvents = 'none';
+            gameArea.appendChild(confettiContainer);
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animation = `fall ${Math.random() * 2 + 1}s linear`;
+                confettiContainer.appendChild(confetti);
+            }
+
+            setTimeout(() => {
+                confettiContainer.remove();
+            }, 3000);
+        }
     </script>
 </body>
 </html>
