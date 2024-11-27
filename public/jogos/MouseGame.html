@@ -57,9 +57,9 @@
 
         #score {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 20px;
+            top: 30px;
+            left: 30px;
+            font-size: 35px;
         }
 
         #message {
@@ -91,6 +91,7 @@
             cursor: pointer;
             font-size: 24px;
             color: rgba(80, 196, 235, 0.6);
+            z-index: 20; /* Garantir que os botões fiquem acima da gameArea */
         }
 
         #menuButton {
@@ -103,6 +104,43 @@
             right: 20px;
         }
 
+        /* Estilos dos botões de iniciar e reiniciar o jogo */
+        #startButton,
+        #restartButton,
+        #backToGamesButton {
+            position: absolute;
+        
+            width: 300px;
+            height: 50px;
+            background-color: #3498db; /* Cor azul consistente */
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(80, 196, 235, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 20px;
+            color: #fff; /* Cor do texto branco */
+            z-index: 20; /* Garantir que os botões fiquem acima da gameArea */
+        
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-top: 20px; /* Ajuste conforme necessário */
+        }
+
+        #startButton {
+            margin-top: 100px; /* Ajuste conforme necessário */
+        }
+
+        #restartButton {
+            margin-top: 70px; /* Ajuste conforme necessário */
+        }
+
+        #backToGamesButton {
+            margin-top: 150px; /* Ajuste conforme necessário */
+        }
+
         #modal {
             position: fixed;
             top: 0;
@@ -113,7 +151,7 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 20;
+            z-index: 30; /* Garantir que o modal fique acima de tudo */
         }
 
         #modalContent {
@@ -195,9 +233,33 @@
         .high-contrast #message button {
             background-color: #3498db;
         }
+
+        #backgroundImage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: none;
+            z-index: 5;
+        }
     </style>
 </head>
 <body>
+    <div id="gameArea">
+        <div id="player">
+            <img  src="https://em-content.zobj.net/source/apple/232/fish_1f41f.png" alt="Player character">
+        </div>
+        <div id="score">Pontos: 0</div>
+        <div id="message">
+            <h1>Fundo do Mar</h1>
+            <h2>Arraste o mergulhado com o mouse e colete as conchas enquanto desvia dos ouriços!</h2>
+            <button id="startButton">Jogar</button>
+        </div>
+    </div>
+
     <div id="menuButton">&#9776;</div>
     <div id="hintButton">&#128161;</div>
 
@@ -206,7 +268,7 @@
             <div id="modalTitle">Título do Modal</div>
             <button id="btnContinue">Continuar</button>
             <button id="btnReload">Recarregar</button>
-            <a href="pagina_inicial.html">
+            <a href="../jogos.html">
                 <button id="btnExit">Sair do Jogo</button>
             </a>
             <div id="fontSizeControls">
@@ -216,29 +278,25 @@
             <button id="btnHighContrast">Ativar Alto Contraste</button>
         </div>
     </div>
-
-    <div id="gameArea">
-        <div id="player">
-            <img src="https://em-content.zobj.net/source/apple/232/fish_1f41f.png" alt="Player character">
-        </div>
-        <div id="score">Pontos: 0</div>
-        <div id="message">Pressione ESPAÇO para começar o jogo</div>
-    </div>
+    <div id="backgroundImage"></div>
 
     <script>
         const player = document.getElementById('player');
         const gameArea = document.getElementById('gameArea');
         const scoreDisplay = document.getElementById('score');
         const messageDisplay = document.getElementById('message');
+        const startButton = document.getElementById('startButton');
+        const backgroundImage = document.getElementById('backgroundImage');
         let score = 0;
         let playerX = 0;
         let playerY = 0;
-        const startX = 10;
-        const startY = 10;
+        const startX = 50;
+        const startY = 70;
         let gameState = 'initial';
         let isDragging = false;
         let dragOffsetX = 0;
         let dragOffsetY = 0;
+        let hintActive = false;
 
         function startDrag(e) {
             if (gameState !== 'playing') return;
@@ -346,7 +404,7 @@
                     playerRect.top < obstacleRect.bottom &&
                     playerRect.bottom > obstacleRect.top
                 ) {
-                    if (obstacle.classList.contains('red')) {
+                    if (obstacle.classList.contains('red') && !hintActive) {
                         loseGame();
                     } else if (obstacle.classList.contains('green')) {
                         score++;
@@ -359,10 +417,11 @@
         }
 
         function loseGame() {
+            if (hintActive) return;
             gameState = 'lost';
             player.style.cursor = 'default';
             messageDisplay.style.display = 'block';
-            messageDisplay.textContent = `Parabéns, você conseguiu: ${score} pontos.`;
+            messageDisplay.innerHTML = `<h1>Parabéns, você conseguiu: ${score} pontos.</h1><button id="restartButton">Jogar de Novo</button><button id="backToGamesButton">Voltar para página de jogos</button>`;
             resetPlayerPosition();
         }
 
@@ -393,25 +452,17 @@
         function createRedBlocks() {
             const policeCarUrl = 'https://cdn-icons-png.flaticon.com/512/146/146688.png';
             const positions = [
-                { x: 100, y: 100 }, { x: 200, y: 200 }, { x: 300, y: 300 },
-                { x: 400, y: 400 }, { x: 500, y: 500 }, { x: 600, y: 600 },
-                { x: 700, y: 600 }, { x: 800, y: 700 }
+                { x: 200, y: 600 }, { x: 200, y: 200 }, { x: 300, y: 300 },
+                { x: 400, y: 400 }
             ];
 
             positions.forEach((pos, index) => {
-                const imageUrl = index === 0 ? '' : policeCarUrl;
+                const imageUrl = policeCarUrl; // Certifique-se de que todos os blocos vermelhos tenham uma imagem visível
                 createObstacle('red', pos.x, pos.y, 100, 100, imageUrl);
             });
         }
 
-        // Adiciona listener para a tecla espaço
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
-                if (gameState === 'initial' || gameState === 'lost') {
-                    restartGame();
-                }
-            }
-        });
+        startButton.addEventListener('click', startGame);
 
         player.addEventListener('mousedown', startDrag);
         document.addEventListener('mouseup', stopDrag);
@@ -504,9 +555,9 @@
 
         function showHint() {
             hintActive = true;
-            const walls = document.querySelectorAll('.wall');
-            walls.forEach(wall => {
-                wall.style.backgroundColor = 'rgba(173, 216, 230, 0.5)'; // Azul claro com baixa opacidade
+            const redBlocks = document.querySelectorAll('.obstacle.red');
+            redBlocks.forEach(block => {
+                block.style.opacity = '0.5'; // Torna os blocos vermelhos transparentes
             });
 
             let timer = 5;
@@ -524,13 +575,23 @@
                 if (timer <= 0) {
                     clearInterval(interval);
                     hintActive = false;
-                    walls.forEach(wall => {
-                        wall.style.backgroundColor = '#333'; // Restaura a cor original
+                    redBlocks.forEach(block => {
+                        block.style.opacity = '1'; // Restaura a opacidade original
                     });
                     timerDisplay.remove();
                 }
             }, 1000);
         }
+
+        // Adiciona listener para o botão de reiniciar o jogo
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.id === 'restartButton') {
+                restartGame();
+            }
+            if (e.target && e.target.id === 'backToGamesButton') {
+                window.location.href = '../jogos.html';
+            }
+        });
     </script>
 </body>
 </html>
