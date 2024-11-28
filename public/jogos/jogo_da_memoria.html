@@ -400,13 +400,43 @@
                 if (matchedPairs === cardIcons.length) {
                     saveGame();
                     displayMessage('Parabéns! Você completou o jogo!');
+// Criar o botão de Reiniciar
+const restartButton = document.createElement('button');
+restartButton.textContent = 'Jogar de Novo';
+restartButton.style.padding = '10px 20px';
+restartButton.style.marginTop = '20px';
+restartButton.style.cursor = 'pointer';
+restartButton.style.backgroundColor = '#4A90E2'; // Cor azul do botão
+restartButton.style.color = '#fff'; // Cor do texto
+restartButton.style.border = 'none';
+restartButton.style.borderRadius = '8px';
+restartButton.style.fontSize = '16px';
+restartButton.style.fontWeight = 'bold';
+restartButton.style.width = '200px'; // Largura ajustada
+restartButton.style.textAlign = 'center';
 
-                    // Criar o botão
-                    const restartButton = document.createElement('button');
-                    restartButton.textContent = 'Reiniciar Jogo';
-                    restartButton.style.padding = '10px 20px';
-                    restartButton.style.marginTop = '20px';
-                    restartButton.style.cursor = 'pointer';
+// Criar o botão de Voltar
+const backButton = document.createElement('button');
+backButton.textContent = 'Voltar para página de jogos';
+backButton.style.padding = '10px 20px';
+backButton.style.marginTop = '10px';
+backButton.style.cursor = 'pointer';
+backButton.style.backgroundColor = '#4A90E2'; // Cor azul do botão
+backButton.style.color = '#fff'; // Cor do texto
+backButton.style.border = 'none';
+backButton.style.borderRadius = '8px';
+backButton.style.fontSize = '16px';
+backButton.style.fontWeight = 'bold';
+backButton.style.width = '200px'; // Largura ajustada
+backButton.style.textAlign = 'center';
+
+// Adicionar funcionalidade ao botão de Voltar
+backButton.onclick = () => {
+    window.location.href = '../jogos.html'; // Redireciona para a página de jogos
+};
+
+// Adicionar os botões ao corpo ou a um container
+document.body.appendChild(restartButton);
 
                     // Adicionar um evento de clique ao botão
                     restartButton.addEventListener('click', () => {

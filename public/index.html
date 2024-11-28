@@ -143,6 +143,7 @@
             border-radius: 9999px;
             margin-top: 1rem;
             cursor: pointer;
+            font-size: 16px;
         }
 
         .profile-card {
@@ -340,6 +341,17 @@
     </script>
 
     <header>
+        <div vw class="enabled">
+            <div vw-access-button class="active"></div>
+            <div vw-plugin-wrapper>
+              <div class="vw-plugin-top-wrapper"></div>
+            </div>
+          </div>
+          <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+          <script>
+            new window.VLibras.Widget('https://vlibras.gov.br/app');
+          </script>
+        
         <nav class="navbar">
             <div class="logo">
                 <a href=""><img src="img/Logo.png" alt="Logo"></a>
@@ -371,7 +383,7 @@
             <div class="welcome-text">
                 <div>
                     <h1>Bem-vindo</h1>
-                    <h2>Como é bom ter você por aqui!<h2>
+                    <h1>Como é bom ter você por aqui!<h1>
                 </div>
                 <a href="jogos.html"><button class="play-btn">Jogar</button></a>
             </div>
@@ -380,57 +392,57 @@
 
         <section class="profile-card">
             <img srcset="https://images.vexels.com/content/150881/preview/baby-rubber-duck-circle-icon-53725b.png" alt="User Avatar" class="user-avatar">
-            <h2 class="profile-name"><span id="username"></span></h2>
-            <h2 class="profile-stats">Jogos concluídos: <span id="jogoscompletos"></span>/17</h2>
-            <h2 class="profile-stats">Parabéns!</h2>
+            <h1 class="profile-name"><span id="username"></span></h1>
+            <h1 class="profile-stats">Jogos concluídos: <span id="jogoscompletos"></span>/17</h1>
+            <h1 class="profile-stats">Parabéns!</h1>
         </section>
 
         <section class="characters-section">
-            <h2 class="characters-title">Nossos personagens estão te esperando!</h2>
-            <h2 class="characters-subtitle">Gostou de algum? Clique para jogar</h2>
+            <h1 class="characters-title">Nossos personagens estão te esperando!</h1>
+            <h1 class="characters-subtitle">Gostou de algum? Clique para jogar</h1>
             <section id="imagens">
                 <div class="wrapper">
                     <ul class="carousel">
                         <li class="card card-jogos" data-modal="modal3.1">
                             <div class="img">
-                                <img src="https://em-content.zobj.net/source/joypixels/369/honeybee_1f41d.png" alt="" draggable="false" />
+                                <img src="img/belha.png" alt="" draggable="false" />
                             </div>
-                            <h2></h2>
+                            <h1></h1>
                             <span></span>
                         </li>
                         <li class="card card-jogos" data-modal="modal3.2">
                             <div class="img">
-                                <img src="https://images.emojiterra.com/google/android-11/512px/1f436.png   " alt="" draggable="false" />
+                                <img src="img/cachorro.png" alt="" draggable="false" />
                             </div>
-                            <h2></h2>
+                            <h1></h1>
                             <span></span>
                         </li>
                         <li class="card card-jogos" data-modal="modal3.3">
                             <div class="img">
-                                <img src="https://images.emojiterra.com/google/android-11/512px/1f412.png" alt="" draggable="false" />
+                                <img src="img/macaco.png" alt="" draggable="false" />
                             </div>
-                            <h2></h2>
+                            <h1></h1>
                             <span></span>
                         </li>
                         <li class="card card-jogos" data-modal="modal3.4">
                             <div class="img">
-                                <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/1024px/1f6f8_color.png" alt="" draggable="false" />
+                                <img src="img/espaço.png    " alt="" draggable="false" />
                             </div>
-                            <h2></h2>
+                            <h1></h1>
                             <span></span>
                         </li>
                         <li class="card card-jogos" data-modal="modal3.5">
                             <div class="img">
-                                <img src="https://images.emojiterra.com/google/android-12l/512px/270f.png" alt="" draggable="false" />
+                                <img src="img/lápis.png" alt="" draggable="false" />
                             </div>
-                            <h2></h2>
+                            <h1></h1>
                             <span></span>
                         </li>
                     </ul>
                 </div>
             </section>
             <br>
-            <h2>Explore todos os jogos!<h2>
+            <h1>Explore todos os jogos!<h1>
                 <a  href="jogos.html" class="explore-button">Jogos</a>
         </section>
     </main>
@@ -463,18 +475,19 @@
         </div>
     </footer>
 
+    
     <div class="modal" id="modal3.1">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Labirinto - Abelha e Flores</h2>
+                <h1 class="modal-title">Labirinto - Abelha e Flores</h1>
                 <button class="close-button">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-image">
-                    <img src="img/abelhaflor.jpg" alt="">
+                    <img src="img/10.png" alt="">
                 </div>
                 <div class="modal-description">
-                    <h2>Descrição do Jogo</h2>
+                    <h1>Descrição do Jogo</h1>
                     <br>
                     <br>
                     <p><span style="font-weight: bold;">Objetivo:</span> Arrastar a abelha com o mouse e coletar
@@ -499,7 +512,7 @@
             </div>
             <p><br></p>
             <div class="slider">
-                <div class="slide-track right" id="slider3.1">
+                <div class="slide-track right">
                 </div>
             </div>
         </div>
@@ -508,15 +521,15 @@
     <div class="modal" id="modal3.2">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Labirinto - Cachorro e Ossos</h2>
+                <h1 class="modal-title">Labirinto - Cachorro e Ossos</h1>
                 <button class="close-button">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-image">
-                    <img src="img/cachorrosso.jpg" alt="">
+                    <img src="img/11.png" alt="">
                 </div>
                 <div class="modal-description">
-                    <h2>Descrição do Jogo</h2>
+                    <h1>Descrição do Jogo</h1>
                     <br>
                     <br>
                     <p><span style="font-weight: bold;">Objetivo:</span> Arrastar o cachorro com o mouse e
@@ -541,7 +554,7 @@
             </div>
             <p><br></p>
             <div class="slider">
-                <div class="slide-track right" id="slider3.2">
+                <div class="slide-track right">
                 </div>
             </div>
         </div>
@@ -550,15 +563,15 @@
     <div class="modal" id="modal3.3">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Labirinto - Lápis e Cadernos</h2>
+                <h1 class="modal-title">Labirinto - Lápis e Cadernos</h1>
                 <button class="close-button">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-image">
-                    <img src="img/lapiscaderno.jpg" alt="">
+                    <img src="img/12.png" alt="">
                 </div>
                 <div class="modal-description">
-                    <h2>Descrição do Jogo</h2>
+                    <h1>Descrição do Jogo</h1>
                     <br>
                     <br>
                     <p><span style="font-weight: bold;">Objetivo:</span> Arrastar o lápis com o mouse e coletar
@@ -583,7 +596,7 @@
             </div>
             <p><br></p>
             <div class="slider">
-                <div class="slide-track right" id="slider3.3">
+                <div class="slide-track right">
                 </div>
             </div>
         </div>
@@ -592,15 +605,15 @@
     <div class="modal" id="modal3.4">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Labirinto - Macaco e Bananas</h2>
+                <h1 class="modal-title">Labirinto - Macaco e Bananas</h1>
                 <button class="close-button">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-image">
-                    <img src="img/macacobanana.jpg" alt="">
+                    <img src="img/13.png" alt="">
                 </div>
                 <div class="modal-description">
-                    <h2>Descrição do Jogo</h2>
+                    <h1>Descrição do Jogo</h1>
                     <br>
                     <br>
                     <p><span style="font-weight: bold;">Objetivo:</span> Arrastar o macaco com o mouse e coletar
@@ -625,7 +638,7 @@
             </div>
             <p><br></p>
             <div class="slider">
-                <div class="slide-track right" id="slider3.4">
+                <div class="slide-track right">
                 </div>
             </div>
         </div>
@@ -634,15 +647,15 @@
     <div class="modal" id="modal3.5">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Labirinto - Espaçonave e Estrelas</h2>
+                <h1 class="modal-title">Labirinto - Espaçonave e Estrelas</h1>
                 <button class="close-button">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-image">
-                    <img src="img/naveestrela.jpg" alt="">
+                    <img src="img/14.png" alt="">
                 </div>
                 <div class="modal-description">
-                    <h2>Descrição do Jogo</h2>
+                    <h1>Descrição do Jogo</h1>
                     <br>
                     <br>
                     <p><span style="font-weight: bold;">Objetivo:</span> Arrastar a espaçonave com o mouse e
@@ -667,12 +680,11 @@
             </div>
             <p><br></p>
             <div class="slider">
-                <div class="slide-track right" id="slider3.5">
+                <div class="slide-track right">
                 </div>
             </div>
         </div>
     </div>
-
     <script>
         let carousel = document.querySelector(".carousel");
         let btns = document.querySelectorAll(".wrapper i");

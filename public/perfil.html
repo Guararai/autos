@@ -170,7 +170,17 @@
 </head>
 
 <body class="bg-gray-100" style="background-color: #E3F4FA;">
-
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+          <div class="vw-plugin-top-wrapper"></div>
+        </div>
+      </div>
+      <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+      <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+      </script>
+    
     <!-- Modal Email -->
     <div id="emailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
         <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
@@ -456,7 +466,7 @@
                 }
             } else {
                 // Redirect to login page
-                window.location.href = '/login.html';
+               // window.location.href = '/login.html';
             }
         });
 

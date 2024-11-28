@@ -9,9 +9,12 @@
             margin: 0;
             overflow: hidden;
             background-attachment: fixed;
-            background-repeat: no-repeat;
+   
             background-size: cover;
             background-color: #f0f0f0;
+            background-image: url('https://media.istockphoto.com/id/1131871456/pt/vetorial/underwater-landscape-with-seaweeds-panoramic-seascape.jpg?s=612x612&w=0&k=20&c=WUqO-Rk0ckO2gJ94o0oI49Tn1rHuV4mJNrKTppD1two='); /* Substitua pelo caminho correto */
+    background-size: cover; /* Faz a imagem cobrir a área inteira */
+    background-repeat: no-repeat; /* Evita que a imagem se repita */
         }
 
         #gameArea {
@@ -274,7 +277,7 @@
 
     <div id="modal">
         <div id="modalContent">
-            <div id="modalTitle">Título do Modal</div>
+            <div id="modalTitle">Fundo do Mar</div>
             <button id="btnContinue">Continuar</button>
             <button id="btnReload">Recarregar</button>
             <a href="../jogos.html">
@@ -459,7 +462,7 @@
         function createRandomGreenObstacle() {
             const x = Math.random() * (gameArea.clientWidth - 50);
             const y = Math.random() * (gameArea.clientHeight - 50);
-            createObstacle('green', x, y, 50, 50, 'https://png.pngtree.com/png-clipart/20230123/original/pngtree-yellow-sea-shells-png-image_8927638.png');
+            createObstacle('green', x, y, 50, 50, 'img/concha.png');
         }
 
         function createRedBlocks() {
